@@ -6,52 +6,53 @@
     <title>100ÜZÜM100</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
-        /* GKM_SLOTS Temelli Tamamen Mat, Premium ve Elit Renk Skalası */
+        /* Yüksek Kaliteli Premium Renk Paleti */
         :root {
-            --bg-start: #0f081d; /* Derin, mat gece moru */
-            --bg-end: #07030e;   /* Asil siyaha yakın ton */
-            --card-bg: rgba(22, 13, 38, 0.7); /* Arkasını pürüzsüz sızdıran cam efekti */
-            --card-border: rgba(141, 77, 199, 0.12); /* Göze batmayan incecik premium çizgi */
-            --text-main: #f0eaf7; /* Mat fildişi beyazı */
-            --text-muted: #8d80a3; /* Elit gri-mor tonu */
-            --voted-color: #248000; /* Çiğ olmayan mat yeşil */
+            --bg-dark: #07030e;
+            --bg-glow: #0e071f;
+            --card-glass: rgba(22, 12, 38, 0.65);
+            --accent-purple: #a855f7;
+            --accent-glow: rgba(168, 85, 247, 0.3);
+            --text-pure: #ffffff;
+            --text-silver: #b4acc5;
+            --text-dim: #665b7d;
+            --vote-green: #10b981;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            /* Apple ve modern sistemlerin kullandığı en premium, ince font ailesi */
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
         body {
-            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
-            color: var(--text-main);
+            background: radial-gradient(circle at 50% 0%, var(--bg-glow) 0%, var(--bg-dark) 100%);
+            color: var(--text-pure);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 4.5rem 1rem;
+            padding: 4rem 1.5rem;
             overflow-x: hidden;
             position: relative;
         }
 
-        /* Arka Plandaki Derinlik Katan Çok Hafif Üzüm Dokusu */
-        body::before {
-            content: "";
+        /* Arka Plandaki Premium Işık Küreleri (Süslemeler) */
+        .glow-orb {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' viewBox='0 0 80 80'%3E%3Cg fill='%238d4dc7' fill-opacity='0.015'%3E%3Ccircle cx='40' cy='30' r='10'/%3E%3Ccircle cx='30' cy='45' r='8'/%3E%3Ccircle cx='50' cy='45' r='8'/%3E%3Ccircle cx='40' cy='58' r='7'/%3E%3C/g%3E%3C/svg%3E");
-            z-index: 0;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(0,0,0,0) 70%);
+            filter: blur(50px);
             pointer-events: none;
+            z-index: 0;
         }
+        .orb-1 { top: -100px; left: -100px; }
+        .orb-2 { bottom: -100px; right: -100px; }
 
-        /* Çok Derinden Ve Sakince Süzülen Saydam Üzümler */
+        /* Saydam Akan Elit Üzüm Animasyonu */
         .grape-container {
             position: fixed;
             top: 0;
@@ -65,24 +66,24 @@
         .falling-grape {
             position: absolute;
             top: -50px;
-            font-size: 16px;
-            opacity: 0.08;
+            font-size: 18px;
+            opacity: 0.05;
             animation: fall linear infinite;
         }
 
         @keyframes fall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 0.08; }
+            0% { transform: translateY(0) rotate(0deg); opacity: 0.05; }
             100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
         .container {
             width: 100%;
-            max-width: 460px; /* Arkadaşının sitesindeki o kompakt elit genişlik */
+            max-width: 450px;
             z-index: 2;
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 2.8rem;
+            gap: 2.5rem;
         }
 
         header {
@@ -90,62 +91,148 @@
             margin-bottom: 0.5rem;
         }
 
-        /* Tamamen GKM_SLOTS Stilinde: Parlamasız, Mat, İnce ve Derinlikli Başlık */
+        /* Parlaması Alınmış, Tipografik Olarak Premium Başlık */
         header h1 {
-            font-size: 2rem;
-            color: #ffffff;
-            letter-spacing: 0.18em;
+            font-size: 2.2rem;
+            color: var(--text-pure);
+            letter-spacing: 0.22em;
             font-weight: 300;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
-            opacity: 0.9;
+            text-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
         }
 
-        /* 1. BÖLÜM: ŞARKI LİSTESİ */
+        /* Şık Bölüm Çizgisi */
+        .divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            color: var(--text-dim);
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin: -0.5rem 0;
+        }
+
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--text-dim), transparent);
+            opacity: 0.3;
+        }
+
+        /* 1. BÖLÜM: ÖZEL PREMIUM OYNATICILAR */
         .player-list {
             display: flex;
             flex-direction: column;
-            gap: 1.4rem;
+            gap: 1.2rem;
         }
 
-        .player-card {
-            background: var(--card-bg);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 1.3rem;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-            transition: border-color 0.2s ease;
+        .custom-player-card {
+            background: var(--card-glass);
+            border: 1px solid rgba(168, 85, 247, 0.15);
+            border-radius: 12px;
+            padding: 1.2rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .player-card:hover {
-            border-color: rgba(141, 77, 199, 0.3);
+        .custom-player-card:hover {
+            border-color: rgba(168, 85, 247, 0.4);
+            box-shadow: 0 10px 30px rgba(168, 85, 247, 0.1);
+            transform: translateY(-2px);
         }
 
-        .player-card .song-title {
-            font-size: 0.9rem;
+        .track-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .track-name {
+            font-size: 1rem;
             font-weight: 400;
-            margin-bottom: 0.9rem;
-            display: block;
             letter-spacing: 0.05em;
-            color: var(--text-main);
-            opacity: 0.85;
+            color: var(--text-pure);
         }
 
-        /* Tarayıcıların Güvenlik Bloklarını Aşan Evrensel Temiz Ses Yapısı */
-        audio {
-            width: 100%;
-            display: block;
-            outline: none;
+        .track-status {
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .controls-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .play-pause-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid var(--accent-purple);
+            color: var(--text-pure);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .play-pause-btn:hover {
+            background: var(--accent-purple);
+            box-shadow: 0 0 12px var(--accent-glow);
+        }
+
+        .play-pause-btn svg {
+            width: 16px;
+            height: 16px;
+            fill: currentColor;
+        }
+
+        .timeline-container {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .timeline-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--accent-purple), #d8b4fe);
+            border-radius: 2px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+
+        .time-display {
+            font-size: 0.75rem;
+            color: var(--text-silver);
+            min-width: 85px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
         }
 
         /* 2. BÖLÜM: OYLAMA ALANI */
         .voting-section {
-            background: rgba(15, 9, 26, 0.85);
-            border: 1px solid var(--card-border);
-            border-radius: 10px;
-            padding: 1.4rem;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.5);
+            background: rgba(12, 6, 22, 0.85);
+            border: 1px solid rgba(168, 85, 247, 0.12);
+            border-radius: 12px;
+            padding: 1.5rem;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
         }
 
         .voting-header {
@@ -153,103 +240,106 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
-            gap: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.8rem;
         }
 
         .voting-title {
-            font-size: 1rem;
-            color: #ffffff;
-            font-weight: 400;
-            letter-spacing: 0.03em;
-            opacity: 0.8;
+            font-size: 0.95rem;
+            color: var(--text-silver);
+            font-weight: 300;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
         }
 
         .total-votes-box {
-            background: rgba(7, 3, 14, 0.6);
-            border: 1px solid rgba(141, 77, 199, 0.15);
-            padding: 0.35rem 0.7rem;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            font-weight: 400;
-            white-space: nowrap;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.78rem;
             letter-spacing: 0.05em;
-            color: var(--text-muted);
+            color: var(--accent-purple);
+            font-weight: 500;
         }
 
         .vote-list {
             display: flex;
             flex-direction: column;
-            gap: 0.75rem;
+            gap: 0.9rem;
         }
 
         .vote-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(30, 18, 51, 0.2);
-            padding: 0.8rem 1.1rem;
-            border-radius: 6px;
-            border: 1px solid transparent;
-            transition: background 0.2s ease;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 0.9rem 1.2rem;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.2s ease;
         }
 
         .vote-row:hover {
-            background: rgba(30, 18, 51, 0.4);
+            background: rgba(168, 85, 247, 0.04);
+            border-color: rgba(168, 85, 247, 0.15);
         }
 
         .vote-label {
-            font-size: 0.88rem;
-            font-weight: 400;
+            font-size: 0.9rem;
             letter-spacing: 0.02em;
-            opacity: 0.85;
+            color: var(--text-silver);
         }
 
         .vote-actions {
             display: flex;
             align-items: center;
-            gap: 1.1rem;
+            gap: 1.2rem;
         }
 
-        /* Küp Şeklinde Minimalist Kare Buton */
+        /* Premium Kare Kutucuk */
         .vote-btn {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             background: transparent;
-            border: 1px solid rgba(141, 77, 199, 0.35);
-            border-radius: 4px;
+            border: 1px solid rgba(168, 85, 247, 0.4);
+            border-radius: 5px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             color: transparent;
-            font-size: 0.8rem;
-            transition: all 0.2s ease;
+            font-size: 0.85rem;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             outline: none;
         }
 
         .vote-btn:hover {
-            border-color: rgba(255, 255, 255, 0.5);
-            background: rgba(255, 255, 255, 0.02);
+            border-color: var(--text-pure);
+            background: rgba(168, 85, 247, 0.1);
         }
 
-        /* Oy verilmiş elit mat yeşil durum */
+        /* Seçildiğinde Premium Mat Yeşil Durum */
         .vote-btn.voted {
-            border-color: var(--voted-color);
-            background: var(--voted-color);
-            color: #ffffff;
+            border-color: var(--vote-green);
+            background: var(--vote-green);
+            color: var(--text-pure);
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
         }
 
         .vote-count {
-            font-size: 0.82rem;
-            color: var(--text-muted);
-            min-width: 55px;
+            font-size: 0.85rem;
+            color: var(--text-dim);
+            min-width: 65px;
             text-align: right;
-            font-weight: 400;
+            font-variant-numeric: tabular-nums;
         }
     </style>
 </head>
 <body>
 
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
     <div class="grape-container" id="grapeContainer"></div>
 
     <div class="container">
@@ -257,32 +347,79 @@
             <h1>100ÜZÜM100</h1>
         </header>
 
+        <div class="divider">Tracks</div>
+
         <div class="player-list">
-            <div class="player-card">
-                <span class="song-title">100ÜZÜM100 1</span>
-                <audio controls preload="metadata" id="audio-1">
-                    <source src="1.mp3" type="audio/mpeg">
-                </audio>
+            <div class="custom-player-card" id="card-1">
+                <div class="track-info">
+                    <span class="track-name">100ÜZÜM100 1</span>
+                    <span class="track-status" id="status-1">Loading</span>
+                </div>
+                <div class="controls-row">
+                    <button class="play-pause-btn" id="play-btn-1" onclick="togglePlay(1)">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="timeline-container" onclick="seekAudio(event, 1)">
+                        <div class="timeline-progress" id="progress-1"></div>
+                    </div>
+                    <span class="time-display" id="time-1">00:00</span>
+                </div>
+                <audio id="audio-1" preload="metadata"></audio>
             </div>
-            <div class="player-card">
-                <span class="song-title">100ÜZÜM100 2</span>
-                <audio controls preload="metadata" id="audio-2">
-                    <source src="2.mp3" type="audio/mpeg">
-                </audio>
+
+            <div class="custom-player-card" id="card-2">
+                <div class="track-info">
+                    <span class="track-name">100ÜZÜM100 2</span>
+                    <span class="track-status" id="status-2">Loading</span>
+                </div>
+                <div class="controls-row">
+                    <button class="play-pause-btn" id="play-btn-2" onclick="togglePlay(2)">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="timeline-container" onclick="seekAudio(event, 2)">
+                        <div class="timeline-progress" id="progress-2"></div>
+                    </div>
+                    <span class="time-display" id="time-2">00:00</span>
+                </div>
+                <audio id="audio-2" preload="metadata"></audio>
             </div>
-            <div class="player-card">
-                <span class="song-title">100ÜZÜM100 3</span>
-                <audio controls preload="metadata" id="audio-3">
-                    <source src="3.mp3" type="audio/mpeg">
-                </audio>
+
+            <div class="custom-player-card" id="card-3">
+                <div class="track-info">
+                    <span class="track-name">100ÜZÜM100 3</span>
+                    <span class="track-status" id="status-3">Loading</span>
+                </div>
+                <div class="controls-row">
+                    <button class="play-pause-btn" id="play-btn-3" onclick="togglePlay(3)">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="timeline-container" onclick="seekAudio(event, 3)">
+                        <div class="timeline-progress" id="progress-3"></div>
+                    </div>
+                    <span class="time-display" id="time-3">00:00</span>
+                </div>
+                <audio id="audio-3" preload="metadata"></audio>
             </div>
-            <div class="player-card">
-                <span class="song-title">100ÜZÜM100 4</span>
-                <audio controls preload="metadata" id="audio-4">
-                    <source src="4.mp3" type="audio/mpeg">
-                </audio>
+
+            <div class="custom-player-card" id="card-4">
+                <div class="track-info">
+                    <span class="track-name">100ÜZÜM100 4</span>
+                    <span class="track-status" id="status-4">Loading</span>
+                </div>
+                <div class="controls-row">
+                    <button class="play-pause-btn" id="play-btn-4" onclick="togglePlay(4)">
+                        <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+                    </button>
+                    <div class="timeline-container" onclick="seekAudio(event, 4)">
+                        <div class="timeline-progress" id="progress-4"></div>
+                    </div>
+                    <span class="time-display" id="time-4">00:00</span>
+                </div>
+                <audio id="audio-4" preload="metadata"></audio>
             </div>
         </div>
+
+        <div class="divider">Feedback</div>
 
         <section class="voting-section">
             <div class="voting-header">
@@ -329,31 +466,117 @@
 
         let userVotedSongId = localStorage.getItem('votedSongId') ? parseInt(localStorage.getItem('votedSongId')) : null;
         let currentVotesData = {};
+        let currentlyPlayingId = null;
 
-        // Tarayıcıların ses kilidini açan akıllı Fallback ve Force-Load fonksiyonu
-        function optimizeAudioPlayers() {
-            const tracks = [1, 2, 3, 4];
-            tracks.forEach(id => {
+        // Olası dosya adları ve klasör yolları varyasyonları (Yürütme Kilit Çözücü)
+        const audioPaths = {
+            1: ['tracks/1.mp3', '1.mp3', 'tracks/100ÜZÜM100 1.mp3', '100ÜZÜM100 1.mp3', 'tracks/100ÜZÜM100_1.mp3', '100ÜZÜM100_1.mp3'],
+            2: ['tracks/2.mp3', '2.mp3', 'tracks/100ÜZÜM100 2.mp3', '100ÜZÜM100 2.mp3', 'tracks/100ÜZÜM100_2.mp3', '100ÜZÜM100_2.mp3'],
+            3: ['tracks/3.mp3', '3.mp3', 'tracks/100ÜZÜM100 3.mp3', '100ÜZÜM100 3.mp3', 'tracks/100ÜZÜM100_3.mp3', '100ÜZÜM100_3.mp3'],
+            4: ['tracks/4.mp3', '4.mp3', 'tracks/100ÜZÜM100 4.mp3', '100ÜZÜM100 4.mp3', 'tracks/100ÜZÜM100_4.mp3', '100ÜZÜM100_4.mp3']
+        };
+
+        // Akıllı Alternatif Yol Tarayıcısı
+        function initAudioSources() {
+            [1, 2, 3, 4].forEach(id => {
                 const audio = document.getElementById(`audio-${id}`);
-                if (audio) {
-                    // Tarayıcının dosyayı mutlak adreste aramaya zorlanması
-                    const currentOrigin = window.location.origin + window.location.pathname.replace('index.html', '');
-                    
-                    // Olası tüm alternatif yolları tarayıcıya dinamik yükleme emri
-                    audio.addEventListener('error', function() {
-                        const currentSrc = audio.currentSrc || '';
-                        if (currentSrc.includes('tracks/') === false) {
-                            // Eğer düz dizinde bulamadıysa klasör yolunu dene
-                            audio.src = currentOrigin + 'tracks/' + id + '.mp3';
-                            audio.load();
-                        }
-                    }, { once: true });
+                let pathIndex = 0;
+                
+                audio.src = audioPaths[id][pathIndex];
+                audio.load();
 
-                    audio.load(); // Motoru tetikle
-                }
+                audio.addEventListener('error', function() {
+                    pathIndex++;
+                    if (pathIndex < audioPaths[id].length) {
+                        audio.src = audioPaths[id][pathIndex];
+                        audio.load();
+                        if (currentlyPlayingId === id) {
+                            audio.play().catch(e => console.log("Auto-fallback trigger failed"));
+                        }
+                    } else {
+                        document.getElementById(`status-${id}`).innerText = "Not Found";
+                        document.getElementById(`status-${id}`).style.color = "#ef4444";
+                    }
+                });
             });
         }
 
+        function togglePlay(id) {
+            const audio = document.getElementById(`audio-${id}`);
+            const btn = document.getElementById(`play-btn-${id}`);
+            const status = document.getElementById(`status-${id}`);
+
+            if (currentlyPlayingId && currentlyPlayingId !== id) {
+                const oldAudio = document.getElementById(`audio-${currentlyPlayingId}`);
+                oldAudio.pause();
+                document.getElementById(`play-btn-${currentlyPlayingId}`).innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                document.getElementById(`status-${currentlyPlayingId}`).innerText = "Paused";
+            }
+
+            if (audio.paused) {
+                audio.play().then(() => {
+                    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                    status.innerText = "Playing";
+                    currentlyPlayingId = id;
+                }).catch(() => {
+                    status.innerText = "Loading...";
+                    currentlyPlayingId = id;
+                });
+            } else {
+                audio.pause();
+                btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                status.innerText = "Paused";
+                if (currentlyPlayingId === id) currentlyPlayingId = null;
+            }
+        }
+
+        function setupAudioListeners() {
+            [1, 2, 3, 4].forEach(id => {
+                const audio = document.getElementById(`audio-${id}`);
+                const progress = document.getElementById(`progress-${id}`);
+                const timeDisplay = document.getElementById(`time-${id}`);
+                const status = document.getElementById(`status-${id}`);
+
+                audio.addEventListener('timeupdate', () => {
+                    if (audio.duration) {
+                        const percentage = (audio.currentTime / audio.duration) * 100;
+                        progress.style.width = `${percentage}%`;
+                        
+                        const curMins = Math.floor(audio.currentTime / 60).toString().padStart(2, '0');
+                        const curSecs = Math.floor(audio.currentTime % 60).toString().padStart(2, '0');
+                        const durMins = Math.floor(audio.duration / 60).toString().padStart(2, '0');
+                        const durSecs = Math.floor(audio.duration % 60).toString().padStart(2, '0');
+                        timeDisplay.innerText = `${curMins}:${curSecs} / ${durMins}:${durSecs}`;
+                    }
+                });
+
+                audio.addEventListener('loadedmetadata', () => {
+                    status.innerText = "Ready";
+                    const durMins = Math.floor(audio.duration / 60).toString().padStart(2, '0');
+                    const durSecs = Math.floor(audio.duration % 60).toString().padStart(2, '0');
+                    timeDisplay.innerText = `00:00 / ${durMins}:${durSecs}`;
+                });
+
+                audio.addEventListener('ended', () => {
+                    document.getElementById(`play-btn-${id}`).innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                    status.innerText = "Finished";
+                    progress.style.width = '0%';
+                    if (currentlyPlayingId === id) currentlyPlayingId = null;
+                });
+            });
+        }
+
+        function seekAudio(event, id) {
+            const audio = document.getElementById(`audio-${id}`);
+            const container = event.currentTarget;
+            const rect = container.getBoundingClientRect();
+            const percentage = (event.clientX - rect.left) / rect.width;
+            if (audio.duration) {
+                audio.currentTime = percentage * audio.duration;
+            }
+        }
+
+        // SUPABASE BAĞLANTISI VE DÜZELTİLMİŞ SEÇİM MOTORU
         async function fetchVotes() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/votes?select=*`, {
@@ -362,21 +585,20 @@
                 const data = await response.json();
                 let total = 0;
                 data.forEach(item => {
-                    currentVotesData[item.id] = item.vote_count;
-                    total += item.vote_count;
+                    currentVotesData[item.id] = item.count; // Sütun ismi 'count' olarak düzeltildi
+                    total += item.count;
                     const countEl = document.getElementById(`count-${item.id}`);
-                    if (countEl) countEl.innerText = `${item.vote_count} votes`;
+                    if (countEl) countEl.innerText = `${item.count} votes`;
                 });
                 document.getElementById('totalVotes').innerText = total;
                 updateButtonStates();
             } catch (error) {
-                console.error("Error:", error);
+                console.error("Fetch error:", error);
             }
         }
 
         function updateButtonStates() {
-            const rows = document.querySelectorAll('.vote-row');
-            rows.forEach(row => {
+            document.querySelectorAll('.vote-row').forEach(row => {
                 const songId = parseInt(row.getAttribute('data-id'));
                 const btn = row.querySelector('.vote-btn');
                 if (songId === userVotedSongId) {
@@ -397,10 +619,10 @@
                         "Content-Type": "application/json",
                         "Prefer": "return=minimal"
                     },
-                    body: JSON.stringify({ vote_count: newCount })
+                    body: JSON.stringify({ count: newCount }) // Tablo sütun ismi düzeltildi
                 });
             } catch (error) {
-                console.error(error);
+                console.error("Update error:", error);
             }
         }
 
@@ -427,6 +649,7 @@
                 localStorage.setItem('votedSongId', songId);
                 await updateVoteInDatabase(songId, newCount);
             }
+            
             let total = 0;
             Object.keys(currentVotesData).forEach(id => {
                 total += currentVotesData[id];
@@ -440,20 +663,20 @@
         function createGrapeRain() {
             const container = document.getElementById('grapeContainer');
             const grapeEmojis = ['🍇', '💜'];
-            const grapeCount = 6;
-            for (let i = 0; i < grapeCount; i++) {
+            for (let i = 0; i < 7; i++) {
                 const grape = document.createElement('div');
                 grape.className = 'falling-grape';
                 grape.innerText = grapeEmojis[Math.floor(Math.random() * grapeEmojis.length)];
                 grape.style.left = `${Math.random() * 100}vw`;
                 grape.style.animationDuration = `${Math.random() * 8 + 12}s`;
-                grape.style.animationDelay = `${Math.random() * 6}s`;
+                grape.style.animationDelay = `${Math.random() * 5}s`;
                 container.appendChild(grape);
             }
         }
 
         window.onload = () => {
-            optimizeAudioPlayers();
+            initAudioSources();
+            setupAudioListeners();
             fetchVotes();
             createGrapeRain();
         };
