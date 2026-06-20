@@ -1,20 +1,20 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100ÜZÜM100</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
-        /* Premium Koyu Tema ve Üzüm Renk Paleti */
+        /* Canlı, Cıvıl Cıvıl ve Premium Mor Renk Paleti */
         :root {
-            --bg-color: #0b0713;
-            --card-bg: rgba(26, 18, 43, 0.7);
-            --card-border: rgba(94, 43, 145, 0.3);
-            --text-color: #f3f0f7;
-            --accent-color: #9d4edd;
-            --accent-hover: #c77dff;
-            --voted-color: #38b000;
+            --bg-color: #1e1233; /* Daha açık ve sıcak bir mor arka plan */
+            --card-bg: rgba(43, 27, 72, 0.85); /* Belirgin ve canlı kartlar */
+            --card-border: rgba(157, 78, 221, 0.5); /* Parlak mor kenarlıklar */
+            --text-color: #ffffff;
+            --accent-color: #c77dff; /* Cıvıl cıvıl açık mor */
+            --accent-hover: #e0aaff; /* Parlak neon mor */
+            --voted-color: #38b000; /* Oy verildiğinde yeşil kutu */
         }
 
         * {
@@ -31,7 +31,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem 1rem;
+            padding: 2.5rem 1rem;
             overflow-x: hidden;
             position: relative;
         }
@@ -51,14 +51,14 @@
             position: absolute;
             top: -50px;
             font-size: 24px;
-            opacity: 0.15;
+            opacity: 0.25; /* Üzümler daha görünür ve canlı */
             animation: fall linear infinite;
         }
 
         @keyframes fall {
             0% {
                 transform: translateY(0) rotate(0deg);
-                opacity: 0.15;
+                opacity: 0.25;
             }
             100% {
                 transform: translateY(110vh) rotate(360deg);
@@ -78,26 +78,18 @@
 
         header {
             text-align: center;
+            margin-bottom: 0.5rem;
         }
 
         header h1 {
-            font-size: 2.5rem;
-            color: var(--accent-color);
-            text-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
-            letter-spacing: 2px;
+            font-size: 3rem;
+            color: #fff;
+            text-shadow: 0 0 20px rgba(199, 125, 255, 0.8);
+            letter-spacing: 3px;
+            font-weight: 800;
         }
 
-        /* Bölüm Başlıkları */
-        .section-title {
-            font-size: 1.4rem;
-            color: var(--accent-hover);
-            margin-bottom: 1rem;
-            border-left: 4px solid var(--accent-color);
-            padding-left: 10px;
-            letter-spacing: 1px;
-        }
-
-        /* 1. BÖLÜM: ŞARKI OYNATICILARI (Sadece Dinleme) */
+        /* 1. BÖLÜM: ŞARKI LİSTESİ (Sadece Dinleme) */
         .player-list {
             display: flex;
             flex-direction: column;
@@ -107,37 +99,40 @@
         .player-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 12px;
-            padding: 1rem;
+            border-radius: 14px;
+            padding: 1.2rem;
             backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s ease;
+        }
+
+        .player-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-hover);
         }
 
         .player-card .song-title {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 600;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.8rem;
             display: block;
+            letter-spacing: 0.5px;
         }
 
+        /* Standart ve Kusursuz Çalışan Audio Oynatıcı */
         audio {
             width: 100%;
-            border-radius: 8px;
-            outline: none;
             display: block;
-        }
-
-        audio::-webkit-media-controls-panel {
-            background-color: #1a122b;
+            outline: none;
         }
 
         /* 2. BÖLÜM: OYLAMA ALANI (Tamamen Ayrı) */
         .voting-section {
-            background: rgba(20, 13, 33, 0.8);
-            border: 1px solid rgba(157, 78, 221, 0.4);
+            background: rgba(33, 19, 56, 0.9);
+            border: 2px solid var(--accent-color);
             border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
         }
 
         .voting-header {
@@ -145,16 +140,25 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 1.5rem;
+            gap: 1rem;
+        }
+
+        .voting-title {
+            font-size: 1.3rem;
+            color: #fff;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .total-votes-box {
-            background: var(--card-bg);
+            background: var(--bg-color);
             border: 1px solid var(--accent-color);
             padding: 0.4rem 0.8rem;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: bold;
-            box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+            white-space: nowrap;
+            box-shadow: 0 0 10px rgba(199, 125, 255, 0.3);
         }
 
         .vote-list {
@@ -167,26 +171,27 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(25, 17, 41, 0.5);
-            padding: 0.8rem 1rem;
+            background: rgba(58, 36, 97, 0.6);
+            padding: 0.9rem 1.2rem;
             border-radius: 10px;
             border: 1px solid transparent;
             transition: all 0.2s ease;
         }
 
         .vote-row:hover {
-            border-color: rgba(157, 78, 221, 0.2);
+            border-color: rgba(199, 125, 255, 0.4);
+            background: rgba(58, 36, 97, 0.8);
         }
 
         .vote-label {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 500;
         }
 
         .vote-actions {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 1.2rem;
         }
 
         /* Küp Şeklinde Kare Buton */
@@ -207,7 +212,8 @@
         }
 
         .vote-btn:hover {
-            background: rgba(157, 78, 221, 0.2);
+            background: rgba(199, 125, 255, 0.2);
+            border-color: var(--accent-hover);
         }
 
         /* Oy verilmiş yeşil buton durumu */
@@ -218,8 +224,8 @@
         }
 
         .vote-count {
-            font-size: 0.9rem;
-            color: #b3a7c4;
+            font-size: 0.95rem;
+            color: #d2c7e5;
             min-width: 65px;
             text-align: right;
         }
@@ -234,31 +240,28 @@
             <h1>100ÜZÜM100</h1>
         </header>
 
-        <section>
-            <h2 class="section-title">Şarkıları Dinle</h2>
-            <div class="player-list">
-                <div class="player-card">
-                    <span class="song-title">100ÜZÜM100 1</span>
-                    <audio controls src="1.mp3" preload="auto"></audio>
-                </div>
-                <div class="player-card">
-                    <span class="song-title">100ÜZÜM100 2</span>
-                    <audio controls src="2.mp3" preload="auto"></audio>
-                </div>
-                <div class="player-card">
-                    <span class="song-title">100ÜZÜM100 3</span>
-                    <audio controls src="3.mp3" preload="auto"></auto>
-                </div>
-                <div class="player-card">
-                    <span class="song-title">100ÜZÜM100 4</span>
-                    <audio controls src="4.mp3" preload="auto"></audio>
-                </div>
+        <div class="player-list">
+            <div class="player-card">
+                <span class="song-title">100ÜZÜM100 1</span>
+                <audio controls src="1.mp3" preload="auto"></audio>
             </div>
-        </section>
+            <div class="player-card">
+                <span class="song-title">100ÜZÜM100 2</span>
+                <audio controls src="2.mp3" preload="auto"></audio>
+            </div>
+            <div class="player-card">
+                <span class="song-title">100ÜZÜM100 3</span>
+                <audio controls src="3.mp3" preload="auto"></audio>
+            </div>
+            <div class="player-card">
+                <span class="song-title">100ÜZÜM100 4</span>
+                <audio controls src="4.mp3" preload="auto"></audio>
+            </div>
+        </div>
 
         <section class="voting-section">
             <div class="voting-header">
-                <h2 class="section-title" style="margin-bottom: 0;">En Beğendiğin Şarkıyı Seç</h2>
+                <h2 class="voting-title">Which one did you like the most?</h2>
                 <div class="total-votes-box">Total Votes: <span id="totalVotes">0</span></div>
             </div>
 
@@ -330,7 +333,7 @@
             }
         }
 
-        // Butonların basılı/basılı değil durumunu günceller
+        // Butonların durumunu günceller
         function updateButtonStates() {
             const rows = document.querySelectorAll('.vote-row');
             rows.forEach(row => {
@@ -404,7 +407,7 @@
             updateButtonStates();
         }
 
-        // Arka plan animasyonu
+        // Arka plan animasyonu (Daha canlı üzümler)
         function createGrapeRain() {
             const container = document.getElementById('grapeContainer');
             const grapeEmojis = ['🍇', '🍇', '🔮', '💜'];
