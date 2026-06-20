@@ -6,16 +6,16 @@
     <title>100ÜZÜM100</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
-        /* Ultra Premium Lüks Renk Paleti */
+        /* Tam İstediğin Kıvamda: Açılmış, Belirgin ve Elit Gece Lounge Tonları */
         :root {
-            --bg-dark: #06020c;
-            --bg-glow: #0d061c;
-            --card-glass: rgba(20, 10, 35, 0.7);
-            --accent-purple: #a855f7;
-            --accent-glow: rgba(168, 85, 247, 0.25);
+            --bg-dark: #120a21;         /* Boğucu siyah yerine asil derin mor */
+            --bg-glow: #22123b;         /* Deseni besleyen lüks üst parıltı moru */
+            --card-glass: rgba(32, 17, 54, 0.75); /* Arkadaki deseni pürüzsüz sızdıran cam */
+            --accent-purple: #c084fc;   /* Daha parlak, asil lavanta tonu */
+            --accent-glow: rgba(192, 132, 252, 0.25);
             --text-pure: #ffffff;
-            --text-silver: #b4acc5;
-            --text-dim: #5c5072;
+            --text-silver: #d1cae1;
+            --text-dim: #7e6f9a;
             --vote-green: #10b981;
         }
 
@@ -39,33 +39,32 @@
             position: relative;
         }
 
-        /* Lüks Markalardan İlham Alınan Saydam ve Buğulu Üzüm Monogram Deseni */
+        /* Netleştirilmiş, Görünür Lüks Üzüm & 100 Monogram Deseni */
         .luxury-monogram-pattern {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* Özel Tasarım Üzüm, Elit Yıldız ve 100 Amblemi İçeren Tekrarlayan Doku */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23a855f7' fill-opacity='0.035'%3E%3C!-- Element 1: Stilize Lüks Üzüm --%3E%3Ccircle cx='30' cy='30' r='3.5'/%3E%3Ccircle cx='25' cy='25' r='3'/%3E%3Ccircle cx='35' cy='25' r='3'/%3E%3Ccircle cx='30' cy='20' r='2.5'/%3E%3C!-- Element 2: Elit Elmas Yıldız --%3E%3Cpath d='M90 12 L93 25 L106 28 L93 31 L90 44 L87 31 L74 28 L87 25 Z'/%3E%3C!-- Element 3: 100 Amblemi --%3E%3Ccircle cx='30' cy='90' r='12' stroke='%23a855f7' stroke-opacity='0.03' stroke-width='1' fill='none'/%3E%3Ctext x='30' y='93' font-size='8' font-family='Arial, sans-serif' text-anchor='middle' font-weight='bold' fill='%23a855f7' fill-opacity='0.035'%3E100%3C/text%3E%3C!-- Element 4: Geometrik Monogram Çiçeği --%3E%3Ccircle cx='90' cy='90' r='4'/%3E%3Ccircle cx='90' cy='80' r='3'/%3E%3Ccircle cx='90' cy='100' r='3'/%3E%3Ccircle cx='80' cy='90' r='3'/%3E%3Ccircle cx='100' cy='90' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            /* Çizgiler yumuşak lavanta tonuyla belirginleştirildi, opaklık kusursuz düzeye çekildi */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23d8b4fe' fill-opacity='0.09'%3E%3C!-- Element 1: Stilize Lüks Üzüm --%3E%3Ccircle cx='30' cy='30' r='3.5'/%3E%3Ccircle cx='25' cy='25' r='3'/%3E%3Ccircle cx='35' cy='25' r='3'/%3E%3Ccircle cx='30' cy='20' r='2.5'/%3E%3C!-- Element 2: Elit Elmas Yıldız --%3E%3Cpath d='M90 12 L93 25 L106 28 L93 31 L90 44 L87 31 L74 28 L87 25 Z'/%3E%3C!-- Element 3: 100 Amblemi --%3E%3Ccircle cx='30' cy='90' r='13' stroke='%23d8b4fe' stroke-opacity='0.08' stroke-width='1.2' fill='none'/%3E%3Ctext x='30' y='93' font-size='8.5' font-family='Arial, sans-serif' text-anchor='middle' font-weight='bold' fill='%23d8b4fe' fill-opacity='0.09'%3E100%3C/text%3E%3C!-- Element 4: Geometrik Monogram Çiçeği --%3E%3Ccircle cx='90' cy='90' r='4'/%3E%3Ccircle cx='90' cy='80' r='3'/%3E%3Ccircle cx='90' cy='100' r='3'/%3E%3Ccircle cx='80' cy='90' r='3'/%3E%3Ccircle cx='100' cy='90' r='3'/%3E%3C/g%3E%3C/svg%3E");
             background-repeat: repeat;
             z-index: 1;
             pointer-events: none;
-            filter: blur(0.4px); /* Hafif puslu ve elit bir derinlik katması için */
         }
 
-        /* Derinlik Sağlayan Arka Plan Parlamaları */
+        /* Atmosfere Derinlik Katan Arka Plan Işıkları */
         .glow-orb {
             position: fixed;
-            width: 500px;
-            height: 500px;
-            background: radial-gradient(circle, rgba(168, 85, 247, 0.1) 0%, rgba(0,0,0,0) 75%);
-            filter: blur(60px);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(192, 132, 252, 0.08) 0%, rgba(0,0,0,0) 80%);
+            filter: blur(70px);
             pointer-events: none;
             z-index: 0;
         }
-        .orb-1 { top: -150px; left: -150px; }
-        .orb-2 { bottom: -150px; right: -150px; }
+        .orb-1 { top: -200px; left: -150px; }
+        .orb-2 { bottom: -200px; right: -150px; }
 
         .container {
             width: 100%;
@@ -87,10 +86,9 @@
             color: var(--text-pure);
             letter-spacing: 0.25em;
             font-weight: 300;
-            text-shadow: 0 0 25px rgba(168, 85, 247, 0.35);
+            text-shadow: 0 0 25px rgba(192, 132, 252, 0.3);
         }
 
-        /* Premium Bölüm Ayracı (Tracks ve Feedback Alanları İçin) */
         .divider {
             display: flex;
             align-items: center;
@@ -108,10 +106,10 @@
             content: "";
             flex: 1;
             height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(92, 80, 114, 0.4), transparent);
+            background: linear-gradient(90deg, transparent, rgba(126, 111, 154, 0.3), transparent);
         }
 
-        /* 1. BÖLÜM: ÖZEL DİJİTAL OYNATICILAR */
+        /* 1. BÖLÜM: DİJİTAL OYNATICILAR */
         .player-list {
             display: flex;
             flex-direction: column;
@@ -120,11 +118,11 @@
 
         .custom-player-card {
             background: var(--card-glass);
-            border: 1px solid rgba(168, 85, 247, 0.14);
+            border: 1px solid rgba(192, 132, 252, 0.16);
             border-radius: 12px;
             padding: 1.3rem;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
             gap: 0.8rem;
@@ -132,8 +130,8 @@
         }
 
         .custom-player-card:hover {
-            border-color: rgba(168, 85, 247, 0.35);
-            box-shadow: 0 12px 35px rgba(168, 85, 247, 0.08);
+            border-color: rgba(192, 132, 252, 0.35);
+            box-shadow: 0 12px 35px rgba(192, 132, 252, 0.08);
             transform: translateY(-2px);
         }
 
@@ -155,7 +153,7 @@
             color: var(--text-silver);
             letter-spacing: 0.06em;
             text-transform: uppercase;
-            opacity: 0.7;
+            opacity: 0.8;
         }
 
         .controls-row {
@@ -168,7 +166,7 @@
             width: 38px;
             height: 38px;
             border-radius: 50%;
-            background: rgba(168, 85, 247, 0.08);
+            background: rgba(192, 132, 252, 0.08);
             border: 1px solid var(--accent-purple);
             color: var(--text-pure);
             cursor: pointer;
@@ -202,7 +200,7 @@
         .timeline-progress {
             height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, var(--accent-purple), #c084fc);
+            background: linear-gradient(90deg, var(--accent-purple), #e9d5ff);
             border-radius: 2px;
             position: absolute;
             top: 0;
@@ -215,17 +213,16 @@
             min-width: 85px;
             text-align: right;
             font-variant-numeric: tabular-nums;
-            opacity: 0.8;
         }
 
         /* 2. BÖLÜM: OYLAMA ALANI */
         .voting-section {
-            background: rgba(11, 5, 20, 0.88);
-            border: 1px solid rgba(168, 85, 247, 0.12);
+            background: rgba(18, 10, 33, 0.9);
+            border: 1px solid rgba(192, 132, 252, 0.15);
             border-radius: 12px;
             padding: 1.5rem;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(25px);
+            box-shadow: 0 15px 45px rgba(0, 0, 0, 0.45);
         }
 
         .voting-header {
@@ -246,8 +243,8 @@
         }
 
         .total-votes-box {
-            background: rgba(0, 0, 0, 0.45);
-            border: 1px solid rgba(168, 85, 247, 0.25);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(192, 132, 252, 0.25);
             padding: 0.4rem 0.8rem;
             border-radius: 6px;
             font-size: 0.75rem;
@@ -274,8 +271,8 @@
         }
 
         .vote-row:hover {
-            background: rgba(168, 85, 247, 0.03);
-            border-color: rgba(168, 85, 247, 0.18);
+            background: rgba(192, 132, 252, 0.03);
+            border-color: rgba(192, 132, 252, 0.18);
         }
 
         .vote-label {
@@ -290,12 +287,11 @@
             gap: 1.2rem;
         }
 
-        /* İstenen Kare Minimalist Buton */
         .vote-btn {
             width: 24px;
             height: 24px;
             background: transparent;
-            border: 1px solid rgba(168, 85, 247, 0.35);
+            border: 1px solid rgba(192, 132, 252, 0.35);
             border-radius: 5px;
             cursor: pointer;
             display: flex;
@@ -309,10 +305,9 @@
 
         .vote-btn:hover {
             border-color: var(--text-pure);
-            background: rgba(168, 85, 247, 0.08);
+            background: rgba(192, 132, 252, 0.08);
         }
 
-        /* Oy Verildiğinde Aktifleşen Mat Yeşil Durum */
         .vote-btn.voted {
             border-color: var(--vote-green);
             background: var(--vote-green);
@@ -331,7 +326,6 @@
 </head>
 <body>
 
-    <!-- Arka Plan Görsel Katmanları -->
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
     <div class="luxury-monogram-pattern"></div>
@@ -343,7 +337,7 @@
 
         <div class="divider">Tracks</div>
 
-        <!-- BÖLÜM 1: PREMIUM DİJİTAL OYNATICILAR -->
+        <!-- BÖLÜM 1: MULTI-SOURCE NATIV SÜRÜCÜLÜ OYNATICILAR -->
         <div class="player-list">
             <!-- Kart 1 -->
             <div class="custom-player-card" id="card-1">
@@ -360,7 +354,16 @@
                     </div>
                     <span class="time-display" id="time-1">00:00</span>
                 </div>
-                <audio id="audio-1" preload="none"></audio>
+                <!-- Tüm olası dosya kombinasyonları nativ olarak alt alta dizildi -->
+                <audio id="audio-1" preload="metadata">
+                    <source src="tracks/1.mp3" type="audio/mpeg">
+                    <source src="1.mp3" type="audio/mpeg">
+                    <source src="Tracks/1.mp3" type="audio/mpeg">
+                    <source src="tracks/100%C3%9CZ%C3%9CM100%201.mp3" type="audio/mpeg">
+                    <source src="tracks/100ÜZÜM100 1.mp3" type="audio/mpeg">
+                    <source src="100%C3%9CZ%C3%9CM100%201.mp3" type="audio/mpeg">
+                    <source src="100ÜZÜM100 1.mp3" type="audio/mpeg">
+                </audio>
             </div>
 
             <!-- Kart 2 -->
@@ -378,7 +381,15 @@
                     </div>
                     <span class="time-display" id="time-2">00:00</span>
                 </div>
-                <audio id="audio-2" preload="none"></audio>
+                <audio id="audio-2" preload="metadata">
+                    <source src="tracks/2.mp3" type="audio/mpeg">
+                    <source src="2.mp3" type="audio/mpeg">
+                    <source src="Tracks/2.mp3" type="audio/mpeg">
+                    <source src="tracks/100%C3%9CZ%C3%9CM100%202.mp3" type="audio/mpeg">
+                    <source src="tracks/100ÜZÜM100 2.mp3" type="audio/mpeg">
+                    <source src="100%C3%9CZ%C3%9CM100%202.mp3" type="audio/mpeg">
+                    <source src="100ÜZÜM100 2.mp3" type="audio/mpeg">
+                </audio>
             </div>
 
             <!-- Kart 3 -->
@@ -396,7 +407,15 @@
                     </div>
                     <span class="time-display" id="time-3">00:00</span>
                 </div>
-                <audio id="audio-3" preload="none"></audio>
+                <audio id="audio-3" preload="metadata">
+                    <source src="tracks/3.mp3" type="audio/mpeg">
+                    <source src="3.mp3" type="audio/mpeg">
+                    <source src="Tracks/3.mp3" type="audio/mpeg">
+                    <source src="tracks/100%C3%9CZ%C3%9CM100%203.mp3" type="audio/mpeg">
+                    <source src="tracks/100ÜZÜM100 3.mp3" type="audio/mpeg">
+                    <source src="100%C3%9CZ%C3%9CM100%203.mp3" type="audio/mpeg">
+                    <source src="100ÜZÜM100 3.mp3" type="audio/mpeg">
+                </audio>
             </div>
 
             <!-- Kart 4 -->
@@ -414,7 +433,15 @@
                     </div>
                     <span class="time-display" id="time-4">00:00</span>
                 </div>
-                <audio id="audio-4" preload="none"></audio>
+                <audio id="audio-4" preload="metadata">
+                    <source src="tracks/4.mp3" type="audio/mpeg">
+                    <source src="4.mp3" type="audio/mpeg">
+                    <source src="Tracks/4.mp3" type="audio/mpeg">
+                    <source src="tracks/100%C3%9CZ%C3%9CM100%204.mp3" type="audio/mpeg">
+                    <source src="tracks/100ÜZÜM100 4.mp3" type="audio/mpeg">
+                    <source src="100%C3%9CZ%C3%9CM100%204.mp3" type="audio/mpeg">
+                    <source src="100ÜZÜM100 4.mp3" type="audio/mpeg">
+                </audio>
             </div>
         </div>
 
@@ -468,24 +495,12 @@
         let currentVotesData = {};
         let currentlyPlayingId = null;
 
-        // Olası tüm isim, klasör (büyük/küçük harf) kombinasyonları matrisi
-        const audioPaths = {
-            1: ['tracks/1.mp3', '1.mp3', 'Tracks/1.mp3', 'tracks/100ÜZÜM100 1.mp3', '100ÜZÜM100 1.mp3', 'Tracks/100ÜZÜM100 1.mp3', 'tracks/100ÜZÜM100_1.mp3', '100ÜZÜM100_1.mp3'],
-            2: ['tracks/2.mp3', '2.mp3', 'Tracks/2.mp3', 'tracks/100ÜZÜM100 2.mp3', '100ÜZÜM100 2.mp3', 'Tracks/100ÜZÜM100 2.mp3', 'tracks/100ÜZÜM100_2.mp3', '100ÜZÜM100_2.mp3'],
-            3: ['tracks/3.mp3', '3.mp3', 'Tracks/3.mp3', 'tracks/100ÜZÜM100 3.mp3', '100ÜZÜM100 3.mp3', 'Tracks/100ÜZÜM100 3.mp3', 'tracks/100ÜZÜM100_3.mp3', '100ÜZÜM100_3.mp3'],
-            4: ['tracks/4.mp3', '4.mp3', 'Tracks/4.mp3', 'tracks/100ÜZÜM100 4.mp3', '100ÜZÜM100 4.mp3', 'Tracks/100ÜZÜM100 4.mp3', 'tracks/100ÜZÜM100_4.mp3', '100ÜZÜM100_4.mp3']
-        };
-
-        // Her bir şarkının hangi dosya yolunu denediğini tutan indeks havuzu
-        let pathIndices = { 1: 0, 2: 0, 3: 0, 4: 0 };
-        let pathValidated = { 1: false, 2: false, 3: false, 4: false };
-
         async function togglePlay(id) {
             const audio = document.getElementById(`audio-${id}`);
             const status = document.getElementById(`status-${id}`);
             const btn = document.getElementById(`play-btn-${id}`);
 
-            // Başka bir şarkı çalıyorsa veya yükleniyorsa onu durdur ve sıfırla
+            // Başka bir şarkı çalıyorsa veya yükleniyorsa onu duraklat ve temizle
             if (currentlyPlayingId && currentlyPlayingId !== id) {
                 const oldAudio = document.getElementById(`audio-${currentlyPlayingId}`);
                 oldAudio.pause();
@@ -493,92 +508,30 @@
                 document.getElementById(`status-${currentlyPlayingId}`).innerText = "Paused";
             }
 
-            // Eğer tıklanan zaten çalıyorsa, duraklat
-            if (!audio.paused && pathValidated[id]) {
+            if (audio.paused) {
+                status.innerText = "Loading...";
+                try {
+                    // Kullanıcı etkileşimi token'ı bozulmadan nativ kaynak tetiklenir
+                    await audio.play();
+                    status.innerText = "Playing";
+                    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                    currentlyPlayingId = id;
+                } catch (error) {
+                    console.error("Playback error:", error);
+                    // Eğer tüm nativ kaynaklar tükendiyse ağ durumunu kontrol et
+                    if (audio.networkState === 3 || audio.error) {
+                        status.innerText = "Not Found";
+                        status.style.color = "#ef4444";
+                    } else {
+                        status.innerText = "Error - Retry";
+                    }
+                }
+            } else {
                 audio.pause();
                 btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
                 status.innerText = "Paused";
                 if (currentlyPlayingId === id) currentlyPlayingId = null;
-                return;
             }
-
-            currentlyPlayingId = id;
-
-            // Eğer dosya yolu daha önce onaylandıysa direkt oynat
-            if (pathValidated[id]) {
-                try {
-                    await audio.play();
-                    status.innerText = "Playing";
-                    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-                } catch (e) {
-                    status.innerText = "Playback Error";
-                }
-                return;
-            }
-
-            // İlk defa basılıyorsa tarayıcı izniyle zincirleme aramayı tam burada başlat
-            status.innerText = "Loading...";
-            tryPlaySequence(id);
-        }
-
-        // Tıklama anında tetiklenen akıllı, dinamik yol tarama fonksiyonu
-        function tryPlaySequence(id) {
-            const audio = document.getElementById(`audio-${id}`);
-            const status = document.getElementById(`status-${id}`);
-            const btn = document.getElementById(`play-btn-${id}`);
-            const paths = audioPaths[id];
-            const currentIndex = pathIndices[id];
-
-            // Eğer tüm alternatif yollar bittiyse ve hâlâ bulunamadıysa hata ver
-            if (currentIndex >= paths.length) {
-                status.innerText = "Not Found";
-                status.style.color = "#ef4444";
-                return;
-            }
-
-            audio.src = paths[currentIndex];
-            audio.load();
-
-            let hasSettled = false;
-
-            function handleSuccess() {
-                if (hasSettled) return;
-                hasSettled = true;
-                audio.removeEventListener('canplay', handleSuccess);
-                audio.removeEventListener('error', handleFailure);
-                
-                audio.play().then(() => {
-                    pathValidated[id] = true;
-                    status.innerText = "Playing";
-                    status.style.color = "var(--text-silver)";
-                    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-                }).catch(() => {
-                    // Tarayıcı otomatik oynatma blokajı verirse hazırda beklet
-                    pathValidated[id] = true;
-                    status.innerText = "Ready";
-                });
-            }
-
-            function handleFailure() {
-                if (hasSettled) return;
-                hasSettled = true;
-                audio.removeEventListener('canplay', handleSuccess);
-                audio.removeEventListener('error', handleFailure);
-                
-                // Bu yol başarısız, bir sonraki kombinasyonu denemek için indeksi artır ve fonksiyonu tekrar çağır
-                pathIndices[id]++;
-                tryPlaySequence(id);
-            }
-
-            audio.addEventListener('canplay', handleSuccess);
-            audio.addEventListener('error', handleFailure);
-
-            // GitHub sunucularının bazen hata kodu fırlatmayıp boş yanıt döndürmesine karşı 2 saniyelik emniyet zamanlayıcısı
-            setTimeout(() => {
-                if (currentlyPlayingId === id && !pathValidated[id] && !hasSettled) {
-                    handleFailure();
-                }
-            }, 2000);
         }
 
         function setupAudioListeners() {
@@ -586,6 +539,13 @@
                 const audio = document.getElementById(`audio-${id}`);
                 const progress = document.getElementById(`progress-${id}`);
                 const timeDisplay = document.getElementById(`time-${id}`);
+                const status = document.getElementById(`status-${id}`);
+
+                // Eğer tarayıcı tüm kaynakları tarayıp hiçbirini açamazsa tetiklenir
+                audio.addEventListener('error', () => {
+                    status.innerText = "Not Found";
+                    status.style.color = "#ef4444";
+                });
 
                 audio.addEventListener('timeupdate', () => {
                     if (audio.duration) {
@@ -601,6 +561,7 @@
                 });
 
                 audio.addEventListener('loadedmetadata', () => {
+                    status.innerText = "Ready";
                     const durMins = Math.floor(audio.duration / 60).toString().padStart(2, '0');
                     const durSecs = Math.floor(audio.duration % 60).toString().padStart(2, '0');
                     timeDisplay.innerText = `00:00 / ${durMins}:${durSecs}`;
@@ -608,7 +569,7 @@
 
                 audio.addEventListener('ended', () => {
                     document.getElementById(`play-btn-${id}`).innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-                    document.getElementById(`status-${id}`).innerText = "Finished";
+                    status.innerText = "Finished";
                     progress.style.width = '0%';
                     if (currentlyPlayingId === id) currentlyPlayingId = null;
                 });
@@ -617,7 +578,7 @@
 
         function seekAudio(event, id) {
             const audio = document.getElementById(`audio-${id}`);
-            if (pathValidated[id] && audio.duration) {
+            if (audio.duration) {
                 const container = event.currentTarget;
                 const rect = container.getBoundingClientRect();
                 const percentage = (event.clientX - rect.left) / rect.width;
