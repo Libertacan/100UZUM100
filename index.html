@@ -4,17 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100ÜZÜM100</title>
+    <!-- Mor Üzüm Favicon Bağlantısı -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
-        /* Canlı, Cıvıl Cıvıl ve Premium Mor Renk Paleti */
+        /* Canlı, Cıvıl Cıvıl ve Premium Desenli Mor Renk Paleti */
         :root {
-            --bg-color: #1e1233; /* Daha açık ve sıcak bir mor arka plan */
-            --card-bg: rgba(43, 27, 72, 0.85); /* Belirgin ve canlı kartlar */
-            --card-border: rgba(157, 78, 221, 0.5); /* Parlak mor kenarlıklar */
+            --bg-start: #2e1a47; /* Üst kısım canlı mor */
+            --bg-end: #140b24;   /* Alt kısım derin asil mor */
+            --card-bg: rgba(53, 33, 87, 0.8); /* Belirgin ve şık kartlar */
+            --card-border: rgba(199, 125, 255, 0.4); /* Parlak kenarlıklar */
             --text-color: #ffffff;
-            --accent-color: #c77dff; /* Cıvıl cıvıl açık mor */
-            --accent-hover: #e0aaff; /* Parlak neon mor */
-            --voted-color: #38b000; /* Oy verildiğinde yeşil kutu */
+            --accent-color: #c77dff; /* Cıvıl cıvıl parlak mor */
+            --accent-hover: #e0aaff;
+            --voted-color: #38b000;  /* Oy verildiğinde yeşil kutu */
         }
 
         * {
@@ -25,7 +27,8 @@
         }
 
         body {
-            background-color: var(--bg-color);
+            /* Duvar boyası görüntüsünü yok eden zengin gradyan arka plan */
+            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
@@ -36,6 +39,21 @@
             position: relative;
         }
 
+        /* Arka Plandaki Gizemli Saydam Üzüm Deseni */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Göz yormayan, asil duran büyük üzüm salkımı SVG arka plan deseni */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%239d4edd' fill-opacity='0.07'%3E%3Ccircle cx='40' cy='30' r='10'/%3E%3Ccircle cx='30' cy='45' r='8'/%3E%3Ccircle cx='50' cy='45' r='8'/%3E%3Ccircle cx='40' cy='58' r='7'/%3E%3Cpath d='M40 10 L40 20 M35 12 Q40 8 45 15' stroke='%239d4edd' stroke-width='2' fill='none'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.8;
+            z-index: 0;
+            pointer-events: none;
+        }
+
         /* Arka Plandaki Düşen Saydam Üzümler Animasyonu */
         .grape-container {
             position: fixed;
@@ -44,14 +62,14 @@
             width: 100%;
             height: 100%;
             pointer-events: none;
-            z-index: 0;
+            z-index: 1;
         }
 
         .falling-grape {
             position: absolute;
             top: -50px;
             font-size: 24px;
-            opacity: 0.25; /* Üzümler daha görünür ve canlı */
+            opacity: 0.25;
             animation: fall linear infinite;
         }
 
@@ -59,6 +77,9 @@
             0% {
                 transform: translateY(0) rotate(0deg);
                 opacity: 0.25;
+            }
+            80% {
+                opacity: 0.20;
             }
             100% {
                 transform: translateY(110vh) rotate(360deg);
@@ -69,7 +90,7 @@
         .container {
             width: 100%;
             max-width: 600px;
-            z-index: 1;
+            z-index: 2;
             position: relative;
             display: flex;
             flex-direction: column;
@@ -83,13 +104,13 @@
 
         header h1 {
             font-size: 3rem;
-            color: #fff;
-            text-shadow: 0 0 20px rgba(199, 125, 255, 0.8);
+            color: #ffffff;
+            text-shadow: 0 0 25px rgba(199, 125, 255, 0.9);
             letter-spacing: 3px;
             font-weight: 800;
         }
 
-        /* 1. BÖLÜM: ŞARKI LİSTESİ (Sadece Dinleme) */
+        /* 1. BÖLÜM: ŞARKI LİSTESİ */
         .player-list {
             display: flex;
             flex-direction: column;
@@ -101,14 +122,14 @@
             border: 1px solid var(--card-border);
             border-radius: 14px;
             padding: 1.2rem;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(8px);
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
         .player-card:hover {
             transform: translateY(-2px);
-            border-color: var(--accent-hover);
+            border-color: var(--accent-color);
         }
 
         .player-card .song-title {
@@ -119,16 +140,16 @@
             letter-spacing: 0.5px;
         }
 
-        /* Standart ve Kusursuz Çalışan Audio Oynatıcı */
+        /* Tarayıcı Hatasını Çözen Güvenli ve Kusursuz Audio Yapısı */
         audio {
             width: 100%;
             display: block;
             outline: none;
         }
 
-        /* 2. BÖLÜM: OYLAMA ALANI (Tamamen Ayrı) */
+        /* 2. BÖLÜM: OYLAMA ALANI */
         .voting-section {
-            background: rgba(33, 19, 56, 0.9);
+            background: rgba(43, 23, 77, 0.9);
             border: 2px solid var(--accent-color);
             border-radius: 16px;
             padding: 1.5rem;
@@ -144,14 +165,14 @@
         }
 
         .voting-title {
-            font-size: 1.3rem;
-            color: #fff;
+            font-size: 1.25rem;
+            color: #ffffff;
             font-weight: 700;
             letter-spacing: 0.5px;
         }
 
         .total-votes-box {
-            background: var(--bg-color);
+            background: #1e1233;
             border: 1px solid var(--accent-color);
             padding: 0.4rem 0.8rem;
             border-radius: 20px;
@@ -171,7 +192,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(58, 36, 97, 0.6);
+            background: rgba(74, 46, 120, 0.5);
             padding: 0.9rem 1.2rem;
             border-radius: 10px;
             border: 1px solid transparent;
@@ -180,7 +201,7 @@
 
         .vote-row:hover {
             border-color: rgba(199, 125, 255, 0.4);
-            background: rgba(58, 36, 97, 0.8);
+            background: rgba(74, 46, 120, 0.7);
         }
 
         .vote-label {
@@ -220,7 +241,7 @@
         .vote-btn.voted {
             border-color: var(--voted-color);
             background: var(--voted-color);
-            color: #fff;
+            color: #ffffff;
         }
 
         .vote-count {
@@ -233,6 +254,7 @@
 </head>
 <body>
 
+    <!-- Üzüm Yağmuru İçin Alan -->
     <div class="grape-container" id="grapeContainer"></div>
 
     <div class="container">
@@ -240,25 +262,43 @@
             <h1>100ÜZÜM100</h1>
         </header>
 
+        <!-- BÖLÜM 1: ŞARKI LİSTESİ (Ses Sorununu Çözen `./` Yapısı) -->
         <div class="player-list">
+            <!-- Şarkı 1 -->
             <div class="player-card">
                 <span class="song-title">100ÜZÜM100 1</span>
-                <audio controls src="1.mp3" preload="auto"></audio>
+                <audio controls preload="auto">
+                    <source src="./1.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
             </div>
+            <!-- Şarkı 2 -->
             <div class="player-card">
                 <span class="song-title">100ÜZÜM100 2</span>
-                <audio controls src="2.mp3" preload="auto"></audio>
+                <audio controls preload="auto">
+                    <source src="./2.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
             </div>
+            <!-- Şarkı 3 -->
             <div class="player-card">
                 <span class="song-title">100ÜZÜM100 3</span>
-                <audio controls src="3.mp3" preload="auto"></audio>
+                <audio controls preload="auto">
+                    <source src="./3.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
             </div>
+            <!-- Şarkı 4 -->
             <div class="player-card">
                 <span class="song-title">100ÜZÜM100 4</span>
-                <audio controls src="4.mp3" preload="auto"></audio>
+                <audio controls preload="auto">
+                    <source src="./4.mp3" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
             </div>
         </div>
 
+        <!-- BÖLÜM 2: OYLAMA ALANI -->
         <section class="voting-section">
             <div class="voting-header">
                 <h2 class="voting-title">Which one did you like the most?</h2>
@@ -266,6 +306,7 @@
             </div>
 
             <div class="vote-list">
+                <!-- Oy Satırı 1 -->
                 <div class="vote-row" data-id="1">
                     <span class="vote-label">100ÜZÜM100 1</span>
                     <div class="vote-actions">
@@ -273,6 +314,7 @@
                         <span class="vote-count" id="count-1">0 votes</span>
                     </div>
                 </div>
+                <!-- Oy Satırı 2 -->
                 <div class="vote-row" data-id="2">
                     <span class="vote-label">100ÜZÜM100 2</span>
                     <div class="vote-actions">
@@ -280,6 +322,7 @@
                         <span class="vote-count" id="count-2">0 votes</span>
                     </div>
                 </div>
+                <!-- Oy Satırı 3 -->
                 <div class="vote-row" data-id="3">
                     <span class="vote-label">100ÜZÜM100 3</span>
                     <div class="vote-actions">
@@ -287,6 +330,7 @@
                         <span class="vote-count" id="count-3">0 votes</span>
                     </div>
                 </div>
+                <!-- Oy Satırı 4 -->
                 <div class="vote-row" data-id="4">
                     <span class="vote-label">100ÜZÜM100 4</span>
                     <div class="vote-actions">
@@ -407,11 +451,11 @@
             updateButtonStates();
         }
 
-        // Arka plan animasyonu (Daha canlı üzümler)
+        // Arka plan animasyonu (Kaybolarak düşen üzümler)
         function createGrapeRain() {
             const container = document.getElementById('grapeContainer');
-            const grapeEmojis = ['🍇', '🍇', '🔮', '💜'];
-            const grapeCount = 20;
+            const grapeEmojis = ['🍇', '🔮', '💜'];
+            const grapeCount = 15; // Ekranı boğmamak için ideal sayı
 
             for (let i = 0; i < grapeCount; i++) {
                 const grape = document.createElement('div');
@@ -419,9 +463,9 @@
                 grape.innerText = grapeEmojis[Math.floor(Math.random() * grapeEmojis.length)];
                 
                 grape.style.left = `${Math.random() * 100}vw`;
-                grape.style.animationDuration = `${Math.random() * 8 + 6}s`;
-                grape.style.animationDelay = `${Math.random() * 10}s`;
-                grape.style.fontSize = `${Math.random() * 15 + 15}px`;
+                grape.style.animationDuration = `${Math.random() * 8 + 7}s`; // 7-15 saniye arası akıcı düşüş
+                grape.style.animationDelay = `${Math.random() * 12}s`;
+                grape.style.fontSize = `${Math.random() * 12 + 16}px`;
 
                 container.appendChild(grape);
             }
