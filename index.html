@@ -41,7 +41,7 @@
             font-weight: 700;
         }
 
-        /* Çok Beğendiğin Monogram Desen Katmanı - Dokunulmadı */
+        /* Monogram Desen Katmanı - Dokunulmadı */
         .luxury-monogram-pattern {
             position: fixed;
             top: 0;
@@ -81,7 +81,6 @@
             margin-bottom: 0.5rem;
         }
 
-        /* İstediğin Parlamasız, Net, Kalın ve Tok Amblem Başlığı */
         header h1 {
             font-family: 'Poppins', sans-serif;
             font-weight: 900;
@@ -331,6 +330,7 @@
         <div class="divider">Tracks</div>
 
         <div class="player-list">
+            <!-- Kart 1 -->
             <div class="custom-player-card" id="card-1">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 1</span>
@@ -347,6 +347,7 @@
                 <audio id="audio-1" src="tracks/100ÜZÜM100 1.mp3" preload="auto"></audio>
             </div>
 
+            <!-- Kart 2 -->
             <div class="custom-player-card" id="card-2">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 2</span>
@@ -363,6 +364,7 @@
                 <audio id="audio-2" src="tracks/100ÜZÜM100 2.mp3" preload="auto"></audio>
             </div>
 
+            <!-- Kart 3 -->
             <div class="custom-player-card" id="card-3">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 3</span>
@@ -379,6 +381,7 @@
                 <audio id="audio-3" src="tracks/100ÜZÜM100 3.mp3" preload="auto"></audio>
             </div>
 
+            <!-- Kart 4 -->
             <div class="custom-player-card" id="card-4">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 4</span>
@@ -398,6 +401,7 @@
 
         <div class="divider">Feedback</div>
 
+        <!-- OYLAMA ALANI -->
         <section class="voting-section">
             <div class="voting-header">
                 <h2 class="voting-title">Which one did you like the most?</h2>
@@ -441,41 +445,38 @@
         const SUPABASE_URL = "https://iugqearshkagosjttxff.supabase.co";
         const SUPABASE_KEY = "sb_publishable_pZGpAKyc4Ulj8pvKYUSE7g_2g73jxLa";
 
-        // BULLETPROOF FALLBACK ENGINE (ZORLAYICI OYNATMA MOTORU)
-        const audioFallbacks = {
-            1: ["tracks/100ÜZÜM100 1.mp3", "tracks/100ÜZÜM100 1.MP3", "tracks/100üzüm100 1.mp3", "tracks/100uzum100 1.mp3", "100ÜZÜM100 1.mp3"],
-            2: ["tracks/100ÜZÜM100 2.mp3", "tracks/100ÜZÜM100 2.MP3", "tracks/100üzüm100 2.mp3", "tracks/100uzum100 2.mp3", "100ÜZÜM100 2.mp3"],
-            3: ["tracks/100ÜZÜM100 3.mp3", "tracks/100ÜZÜM100 3.MP3", "tracks/100üzüm100 3.mp3", "tracks/100uzum100 3.mp3", "100ÜZÜM100 3.mp3"],
-            4: ["tracks/100ÜZÜM100 4.mp3", "tracks/100ÜZÜM100 4.MP3", "tracks/100üzüm100 4.mp3", "tracks/100uzum100 4.mp3", "100ÜZÜM100 4.mp3"]
-        };
-        const currentFallbackIndex = { 1: 0, 2: 0, 3: 0, 4: 0 };
-
         let userVotedSongId = localStorage.getItem('votedSongId') ? parseInt(localStorage.getItem('votedSongId')) : null;
-        let currentVotesData = {};
-        let currentlyPlayingId = null;
+        let currentVotesData = { 1: 0, 2: 0, 3: 0, 4: 0 };
 
-        async function togglePlay(id) {
+        // GPT STANDARTLARINDA DOĞRUDAN OYNATMA FONKSİYONU
+        function togglePlay(id) {
             const audio = document.getElementById(`audio-${id}`);
             const btn = document.getElementById(`play-btn-${id}`);
 
-            if (currentlyPlayingId && currentlyPlayingId !== id) {
-                const oldAudio = document.getElementById(`audio-${currentlyPlayingId}`);
-                oldAudio.pause();
-                document.getElementById(`play-btn-${currentlyPlayingId}`).innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+            // Diğer çalan şarkı varsa durdur
+            for (let i = 1; i <= 4; i++) {
+                if (i !== id) {
+                    const otherAudio = document.getElementById(`audio-${i}`);
+                    const otherBtn = document.getElementById(`play-btn-${i}`);
+                    if (otherAudio && !otherAudio.paused) {
+                        otherAudio.pause();
+                        if (otherBtn) otherBtn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                    }
+                }
             }
 
+            // Doğrudan kullanıcının click event zincirinde tetikleme (Engellenemez Saf JS)
             if (audio.paused) {
-                btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-                currentlyPlayingId = id;
-                try {
-                    await audio.play();
-                } catch (error) {
-                    console.log("İlk yol başarısız, yedekler deneniyor...");
-                }
+                audio.play()
+                    .then(() => {
+                        btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                    })
+                    .catch(err => {
+                        console.error("Playback failed:", err);
+                    });
             } else {
                 audio.pause();
                 btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-                if (currentlyPlayingId === id) currentlyPlayingId = null;
             }
         }
 
@@ -484,20 +485,6 @@
                 const audio = document.getElementById(`audio-${id}`);
                 const progress = document.getElementById(`progress-${id}`);
                 const timeDisplay = document.getElementById(`time-${id}`);
-
-                // SUNUCU HATASI DURUMUNDA SESSİZCE YEDEK YOLLARI DÖNEN SİHİRLİ TETİKLEYİCİ
-                audio.addEventListener('error', () => {
-                    let idx = currentFallbackIndex[id];
-                    if (idx < audioFallbacks[id].length - 1) {
-                        currentFallbackIndex[id]++;
-                        console.log(`Şarkı ${id} yüklenemedi. Yedek yol deneniyor: ${audioFallbacks[id][currentFallbackIndex[id]]}`);
-                        audio.src = audioFallbacks[id][currentFallbackIndex[id]];
-                        audio.load();
-                        if (currentlyPlayingId === id) {
-                            setTimeout(() => { audio.play().catch(() => {}); }, 100);
-                        }
-                    }
-                });
 
                 audio.addEventListener('timeupdate', () => {
                     if (audio.duration) {
@@ -521,7 +508,6 @@
                 audio.addEventListener('ended', () => {
                     document.getElementById(`play-btn-${id}`).innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
                     progress.style.width = '0%';
-                    if (currentlyPlayingId === id) currentlyPlayingId = null;
                 });
             });
         }
@@ -542,17 +528,26 @@
                     headers: { "apikey": SUPABASE_KEY, "Authorization": `Bearer ${SUPABASE_KEY}` }
                 });
                 const data = await response.json();
+                
                 let total = 0;
-                data.forEach(item => {
-                    currentVotesData[item.id] = item.count;
-                    total += item.count;
-                    const countEl = document.getElementById(`count-${item.id}`);
-                    if (countEl) countEl.innerText = `${item.count} votes`;
+                // Önce her şeyi sıfırla
+                [1, 2, 3, 4].forEach(id => {
+                    currentVotesData[id] = 0;
+                    document.getElementById(`count-${id}`).innerText = "0 votes";
                 });
+
+                if (Array.isArray(data)) {
+                    data.forEach(item => {
+                        currentVotesData[item.id] = item.count;
+                        total += item.count;
+                        const countEl = document.getElementById(`count-${item.id}`);
+                        if (countEl) countEl.innerText = `${item.count} votes`;
+                    });
+                }
                 document.getElementById('totalVotes').innerText = total;
                 updateButtonStates();
             } catch (error) {
-                console.error(error);
+                console.error("Fetch hatası:", error);
             }
         }
 
@@ -568,20 +563,21 @@
             });
         }
 
+        // BULLETPROOF UPSERT - SATIR YOKSA OLUŞTURUR, VARSA GÜNCELLER (ASLA SIFIRLANMAZ)
         async function updateVoteInDatabase(songId, newCount) {
             try {
-                await fetch(`${SUPABASE_URL}/rest/v1/votes?id=eq.${songId}`, {
-                    method: 'PATCH',
+                await fetch(`${SUPABASE_URL}/rest/v1/votes`, {
+                    method: 'POST',
                     headers: {
                         "apikey": SUPABASE_KEY,
                         "Authorization": `Bearer ${SUPABASE_KEY}`,
                         "Content-Type": "application/json",
-                        "Prefer": "return=minimal"
+                        "Prefer": "resolution=merge-duplicates"
                     },
-                    body: JSON.stringify({ count: newCount })
+                    body: JSON.stringify({ id: songId, count: newCount })
                 });
             } catch (error) {
-                console.error(error);
+                console.error("DB kaydetme hatası:", error);
             }
         }
 
