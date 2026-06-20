@@ -1,1 +1,395 @@
-<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{background:#341044;color:white;font-family:system-ui;margin:0}.w{max-width:800px;margin:auto;padding:24px}.card,.poll{background:rgba(255,255,255,.08);padding:16px;border-radius:16px;margin:16px 0}audio{width:100%}h1{text-align:center}</style></head><body><div class=w><h1>100ÜZÜM100</h1><div class="card"><div>100ÜZÜM100 1</div><audio controls preload="none"><source src="tracks/100ÜZÜM100 1.mp3"></audio></div><div class="card"><div>100ÜZÜM100 2</div><audio controls preload="none"><source src="tracks/100ÜZÜM100 2.mp3"></audio></div><div class="card"><div>100ÜZÜM100 3</div><audio controls preload="none"><source src="tracks/100ÜZÜM100 3.mp3"></audio></div><div class="card"><div>100ÜZÜM100 4</div><audio controls preload="none"><source src="tracks/100ÜZÜM100 4.mp3"></audio></div><div class=poll><h3>Which one did you like the most?</h3><label><input type="radio" name="vote" value="0"> 100ÜZÜM100 1</label><br><label><input type="radio" name="vote" value="1"> 100ÜZÜM100 2</label><br><label><input type="radio" name="vote" value="2"> 100ÜZÜM100 3</label><br><label><input type="radio" name="vote" value="3"> 100ÜZÜM100 4</label><br><button onclick="localStorage.removeItem('v');document.querySelectorAll('input').forEach(x=>x.checked=false)">Clear</button></div></div><script>const rs=[...document.querySelectorAll('input')];let s=localStorage.getItem('v');if(s!==null){let r=rs.find(x=>x.value===s);if(r)r.checked=true};rs.forEach(r=>r.onclick=()=>{if(localStorage.getItem('v')===r.value){localStorage.removeItem('v');r.checked=false}else localStorage.setItem('v',r.value)})</script></body></html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100ÜZÜM100</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <style>
+        /* Premium Koyu Tema ve Üzüm Renk Paleti */
+        :root {
+            --bg-color: #0b0713;
+            --card-bg: rgba(26, 18, 43, 0.7);
+            --card-border: rgba(94, 43, 145, 0.3);
+            --text-color: #f3f0f7;
+            --accent-color: #9d4edd;
+            --accent-hover: #c77dff;
+            --voted-color: #38b000;
+        }
+
+        * {
+            box-content: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1rem;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Arka Plandaki Düşen Saydam Üzümler Animasyonu */
+        .grape-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .falling-grape {
+            position: absolute;
+            top: -50px;
+            font-size: 24px;
+            opacity: 0.15;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0.15;
+            }
+            100% {
+                transform: translateY(110vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            z-index: 1;
+            position: relative;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            text-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Toplam Oy Sayacı */
+        .total-votes-box {
+            background: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 0.9rem;
+            font-weight: bold;
+            box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+        }
+
+        /* Şarkı Kartları */
+        .song-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .song-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 1.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .song-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+        }
+
+        .song-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .song-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        /* Oylama Kutusu Küp Şeklinde */
+        .vote-section {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .vote-btn {
+            width: 36px;
+            height: 36px;
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.2s ease;
+        }
+
+        .vote-btn:hover {
+            background: rgba(157, 78, 221, 0.2);
+        }
+
+        /* Oy verilmiş aktif buton hali */
+        .vote-btn.voted {
+            border-color: var(--voted-color);
+            background: var(--voted-color);
+            color: #fff;
+        }
+
+        .vote-count {
+            font-size: 0.95rem;
+            color: #b3a7c4;
+            min-width: 60px;
+            text-align: right;
+        }
+
+        /* Premium Ses Oynatıcı */
+        audio {
+            width: 100%;
+            border-radius: 8px;
+            outline: none;
+        }
+
+        /* Tarayıcının varsayılan ses oynatıcısını biraz koyulaştırma */
+        audio::-webkit-media-controls-panel {
+            background-color: #1a122b;
+        }
+        audio::-webkit-media-controls-current-time-display,
+        audio::-webkit-media-controls-time-remaining-display {
+            color: #f3f0f7;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="grape-container" id="grapeContainer"></div>
+
+    <div class="container">
+        <header>
+            <h1>100ÜZÜM100</h1>
+            <div class="total-votes-box">Total Votes: <span id="totalVotes">0</span></div>
+        </header>
+
+        <div class="song-list">
+            <div class="song-card" data-song-id="1">
+                <div class="song-info">
+                    <span class="song-title">100ÜZÜM100 1</span>
+                    <div class="vote-section">
+                        <button class="vote-btn" onclick="toggleVote(1)">✓</button>
+                        <span class="vote-count" id="count-1">0 votes</span>
+                    </div>
+                </div>
+                <audio controls src="1.mp3"></audio>
+            </div>
+
+            <div class="song-card" data-song-id="2">
+                <div class="song-info">
+                    <span class="song-title">100ÜZÜM100 2</span>
+                    <div class="vote-section">
+                        <button class="vote-btn" onclick="toggleVote(2)">✓</button>
+                        <span class="vote-count" id="count-2">0 votes</span>
+                    </div>
+                </div>
+                <audio controls src="2.mp3"></audio>
+            </div>
+
+            <div class="song-card" data-song-id="3">
+                <div class="song-info">
+                    <span class="song-title">100ÜZÜM100 3</span>
+                    <div class="vote-section">
+                        <button class="vote-btn" onclick="toggleVote(3)">✓</button>
+                        <span class="vote-count" id="count-3">0 votes</span>
+                    </div>
+                </div>
+                <audio controls src="3.mp3"></audio>
+            </div>
+
+            <div class="song-card" data-song-id="4">
+                <div class="song-info">
+                    <span class="song-title">100ÜZÜM100 4</span>
+                    <div class="vote-section">
+                        <button class="vote-btn" onclick="toggleVote(4)">✓</button>
+                        <span class="vote-count" id="count-4">0 votes</span>
+                    </div>
+                </div>
+                <audio controls src="4.mp3"></audio>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Supabase Bağlantı Bilgileri
+        const SUPABASE_URL = "https://iugqearshkagosjttxff.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_pZGpAKyc4Ulj8pvKYUSE7g_2g73jxLa";
+
+        // Kullanıcının tarayıcısında (Local Storage) önceden hangi şarkıya oy verdiğini tutuyoruz
+        let userVotedSongId = localStorage.getItem('votedSongId') ? parseInt(localStorage.getItem('votedSongId')) : null;
+        let currentVotesData = {};
+
+        // Supabase'den güncel oyları çeken fonksiyon
+        async function fetchVotes() {
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/votes?select=*`, {
+                    headers: {
+                        "apikey": SUPABASE_KEY,
+                        "Authorization": `Bearer ${SUPABASE_KEY}`
+                    }
+                });
+                const data = await response.json();
+                
+                let total = 0;
+                data.forEach(item => {
+                    currentVotesData[item.id] = item.vote_count;
+                    total += item.vote_count;
+                    
+                    const countEl = document.getElementById(`count-${item.id}`);
+                    if (countEl) countEl.innerText = `${item.vote_count} votes`;
+                });
+
+                document.getElementById('totalVotes').innerText = total;
+                updateButtonStates();
+            } catch (error) {
+                console.error("Oylar çekilirken hata oluştu:", error);
+            }
+        }
+
+        // Butonların basılı/basılı değil görsel durumunu günceller
+        function updateButtonStates() {
+            const cards = document.querySelectorAll('.song-card');
+            cards.forEach(card => {
+                const songId = parseInt(card.getAttribute('data-song-id'));
+                const btn = card.querySelector('.vote-btn');
+                if (songId === userVotedSongId) {
+                    btn.classList.add('voted');
+                } else {
+                    btn.classList.remove('voted');
+                }
+            });
+        }
+
+        // Supabase'de oyu güncelleyen fonksiyon (RPC yerine doğrudan satır güncelleme / Patch)
+        async function updateVoteInDatabase(songId, newCount) {
+            try {
+                await fetch(`${SUPABASE_URL}/rest/v1/votes?id=eq.${songId}`, {
+                    method: 'PATCH',
+                    headers: {
+                        "apikey": SUPABASE_KEY,
+                        "Authorization": `Bearer ${SUPABASE_KEY}`,
+                        "Content-Type": "application/json",
+                        "Prefer": "return=minimal"
+                    },
+                    body: JSON.stringify({ vote_count: newCount })
+                });
+            } catch (error) {
+                console.error("Veritabanı güncellenirken hata oluştu:", error);
+            }
+        }
+
+        // Oylama butonuna basıldığında çalışan ana mantık (Sadece 1 şarkıya oy hakkı)
+        async function toggleVote(songId) {
+            // Eğer zaten bu şarkıya oy verilmişse, oyu geri alıyoruz
+            if (userVotedSongId === songId) {
+                const currentCount = currentVotesData[songId] || 0;
+                const newCount = Math.max(0, currentCount - 1);
+                
+                currentVotesData[songId] = newCount;
+                userVotedSongId = null;
+                localStorage.removeItem('votedSongId');
+                
+                await updateVoteInDatabase(songId, newCount);
+            } 
+            // Eğer başka bir şarkıya oy verilmişse veya ilk defa oy veriliyorsa
+            else {
+                // Eski bir oy varsa önce onu veritabanında 1 düşürüyoruz
+                if (userVotedSongId !== null) {
+                    const oldSongId = userVotedSongId;
+                    const oldSongCount = currentVotesData[oldSongId] || 0;
+                    const oldNewCount = Math.max(0, oldSongCount - 1);
+                    currentVotesData[oldSongId] = oldNewCount;
+                    await updateVoteInDatabase(oldSongId, oldNewCount);
+                }
+
+                // Yeni şarkının oyunu 1 artırıyoruz
+                const currentCount = currentVotesData[songId] || 0;
+                const newCount = currentCount + 1;
+                currentVotesData[songId] = newCount;
+                
+                userVotedSongId = songId;
+                localStorage.setItem('votedSongId', songId);
+                
+                await updateVoteInDatabase(songId, newCount);
+            }
+
+            // Arayüzü yeniden güncelle
+            let total = 0;
+            Object.keys(currentVotesData).forEach(id => {
+                total += currentVotesData[id];
+                const countEl = document.getElementById(`count-${id}`);
+                if (countEl) countEl.innerText = `${currentVotesData[id]} votes`;
+            });
+            document.getElementById('totalVotes').innerText = total;
+            updateButtonStates();
+        }
+
+        // Sayfa açıldığında arka plandaki Üzüm Yağmuru Animasyonunu başlatan kod
+        function createGrapeRain() {
+            const container = document.getElementById('grapeContainer');
+            const grapeEmojis = ['🍇', '🍇', '🔮', '💜']; // Ağırlıklı üzüm ve uyumlu emojiler
+            const grapeCount = 20; // Ekranda aynı anda bulunacak yaklaşık üzüm sayısı
+
+            for (let i = 0; i < grapeCount; i++) {
+                const grape = document.createElement('div');
+                grape.className = 'falling-grape';
+                grape.innerText = grapeEmojis[Math.floor(Math.random() * grapeEmojis.length)];
+                
+                // Rastgele konum ve hızlar
+                grape.style.left = `${Math.random() * 100}vw`;
+                grape.style.animationDuration = `${Math.random() * 8 + 6}s`; // 6-14 saniye arası yavaş düşüş
+                grape.style.animationDelay = `${Math.random() * 10}s`;
+                grape.style.fontSize = `${Math.random() * 15 + 15}px`; // Farklı boyutlar
+
+                container.appendChild(grape);
+            }
+        }
+
+        // Sayfa yüklenince oyları getir ve yağmuru başlat
+        window.onload = () => {
+            fetchVotes();
+            createGrapeRain();
+        };
+    </script>
+</body>
+</html>
