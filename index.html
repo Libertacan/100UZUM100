@@ -5,11 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100ÜZÜM100</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
-    <!-- Tok, Dolgulu ve Net Premium Font Girişi -->
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700;900&display=swap');
 
-        /* Arka Plan Tasarımı ve Renk Paleti Aynen Korundu */
         :root {
             --bg-dark: #120a21;
             --bg-glow: #22123b;
@@ -90,7 +88,7 @@
             font-size: 2.3rem;
             color: var(--text-pure);
             letter-spacing: 0.08em;
-            text-shadow: none; /* Parlama efekti tamamen kaldırıldı */
+            text-shadow: none;
         }
 
         .divider {
@@ -332,9 +330,7 @@
 
         <div class="divider">Tracks</div>
 
-        <!-- BÖLÜM 1: DOĞAL VE REEL DOSYA YOLLARI -->
         <div class="player-list">
-            <!-- Kart 1 -->
             <div class="custom-player-card" id="card-1">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 1</span>
@@ -348,11 +344,9 @@
                     </div>
                     <span class="time-display" id="time-1">00:00</span>
                 </div>
-                <!-- GPT standartlarında, tarayıcının doğrudan çözeceği doğal dosya yolu -->
                 <audio id="audio-1" src="tracks/100ÜZÜM100 1.mp3" preload="auto"></audio>
             </div>
 
-            <!-- Kart 2 -->
             <div class="custom-player-card" id="card-2">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 2</span>
@@ -369,7 +363,6 @@
                 <audio id="audio-2" src="tracks/100ÜZÜM100 2.mp3" preload="auto"></audio>
             </div>
 
-            <!-- Kart 3 -->
             <div class="custom-player-card" id="card-3">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 3</span>
@@ -386,7 +379,6 @@
                 <audio id="audio-3" src="tracks/100ÜZÜM100 3.mp3" preload="auto"></audio>
             </div>
 
-            <!-- Kart 4 -->
             <div class="custom-player-card" id="card-4">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 4</span>
@@ -406,7 +398,6 @@
 
         <div class="divider">Feedback</div>
 
-        <!-- BÖLÜM 2: OYLAMA ALANI -->
         <section class="voting-section">
             <div class="voting-header">
                 <h2 class="voting-title">Which one did you like the most?</h2>
@@ -450,6 +441,15 @@
         const SUPABASE_URL = "https://iugqearshkagosjttxff.supabase.co";
         const SUPABASE_KEY = "sb_publishable_pZGpAKyc4Ulj8pvKYUSE7g_2g73jxLa";
 
+        // BULLETPROOF FALLBACK ENGINE (ZORLAYICI OYNATMA MOTORU)
+        const audioFallbacks = {
+            1: ["tracks/100ÜZÜM100 1.mp3", "tracks/100ÜZÜM100 1.MP3", "tracks/100üzüm100 1.mp3", "tracks/100uzum100 1.mp3", "100ÜZÜM100 1.mp3"],
+            2: ["tracks/100ÜZÜM100 2.mp3", "tracks/100ÜZÜM100 2.MP3", "tracks/100üzüm100 2.mp3", "tracks/100uzum100 2.mp3", "100ÜZÜM100 2.mp3"],
+            3: ["tracks/100ÜZÜM100 3.mp3", "tracks/100ÜZÜM100 3.MP3", "tracks/100üzüm100 3.mp3", "tracks/100uzum100 3.mp3", "100ÜZÜM100 3.mp3"],
+            4: ["tracks/100ÜZÜM100 4.mp3", "tracks/100ÜZÜM100 4.MP3", "tracks/100üzüm100 4.mp3", "tracks/100uzum100 4.mp3", "100ÜZÜM100 4.mp3"]
+        };
+        const currentFallbackIndex = { 1: 0, 2: 0, 3: 0, 4: 0 };
+
         let userVotedSongId = localStorage.getItem('votedSongId') ? parseInt(localStorage.getItem('votedSongId')) : null;
         let currentVotesData = {};
         let currentlyPlayingId = null;
@@ -470,9 +470,7 @@
                 try {
                     await audio.play();
                 } catch (error) {
-                    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-                    if (currentlyPlayingId === id) currentlyPlayingId = null;
-                    console.error("Playback error:", error);
+                    console.log("İlk yol başarısız, yedekler deneniyor...");
                 }
             } else {
                 audio.pause();
@@ -486,6 +484,20 @@
                 const audio = document.getElementById(`audio-${id}`);
                 const progress = document.getElementById(`progress-${id}`);
                 const timeDisplay = document.getElementById(`time-${id}`);
+
+                // SUNUCU HATASI DURUMUNDA SESSİZCE YEDEK YOLLARI DÖNEN SİHİRLİ TETİKLEYİCİ
+                audio.addEventListener('error', () => {
+                    let idx = currentFallbackIndex[id];
+                    if (idx < audioFallbacks[id].length - 1) {
+                        currentFallbackIndex[id]++;
+                        console.log(`Şarkı ${id} yüklenemedi. Yedek yol deneniyor: ${audioFallbacks[id][currentFallbackIndex[id]]}`);
+                        audio.src = audioFallbacks[id][currentFallbackIndex[id]];
+                        audio.load();
+                        if (currentlyPlayingId === id) {
+                            setTimeout(() => { audio.play().catch(() => {}); }, 100);
+                        }
+                    }
+                });
 
                 audio.addEventListener('timeupdate', () => {
                     if (audio.duration) {
