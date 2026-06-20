@@ -6,14 +6,16 @@
     <title>100ÜZÜM100</title>
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
-        /* Tam İstediğin Kıvamda: Açılmış, Belirgin ve Elit Gece Lounge Tonları */
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Syne:wght@800&display=swap');
+
+        /* Arka Plan Tonları Aynen Korundu */
         :root {
-            --bg-dark: #120a21;         /* Boğucu siyah yerine asil derin mor */
-            --bg-glow: #22123b;         /* Deseni besleyen lüks üst parıltı moru */
-            --card-glass: rgba(32, 17, 54, 0.75); /* Arkadaki deseni pürüzsüz sızdıran cam */
-            --accent-purple: #c084fc;   /* Daha parlak, asil lavanta tonu */
+            --bg-dark: #120a21;
+            --bg-glow: #22123b;
+            --card-glass: rgba(32, 17, 54, 0.75);
+            --accent-purple: #c084fc;
             --accent-glow: rgba(192, 132, 252, 0.25);
-            --text-pure: #ffffff;
+            --text-pure: #f3e8ff;
             --text-silver: #d1cae1;
             --text-dim: #7e6f9a;
             --vote-green: #10b981;
@@ -23,7 +25,6 @@
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
@@ -37,23 +38,23 @@
             padding: 4.5rem 1.5rem;
             overflow-x: hidden;
             position: relative;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
         }
 
-        /* Netleştirilmiş, Görünür Lüks Üzüm & 100 Monogram Deseni */
+        /* Çok Beğendiğin Monogram Desen Katmanı - Asla Dokunulmadı */
         .luxury-monogram-pattern {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            /* Çizgiler yumuşak lavanta tonuyla belirginleştirildi, opaklık kusursuz düzeye çekildi */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23d8b4fe' fill-opacity='0.09'%3E%3C!-- Element 1: Stilize Lüks Üzüm --%3E%3Ccircle cx='30' cy='30' r='3.5'/%3E%3Ccircle cx='25' cy='25' r='3'/%3E%3Ccircle cx='35' cy='25' r='3'/%3E%3Ccircle cx='30' cy='20' r='2.5'/%3E%3C!-- Element 2: Elit Elmas Yıldız --%3E%3Cpath d='M90 12 L93 25 L106 28 L93 31 L90 44 L87 31 L74 28 L87 25 Z'/%3E%3C!-- Element 3: 100 Amblemi --%3E%3Ccircle cx='30' cy='90' r='13' stroke='%23d8b4fe' stroke-opacity='0.08' stroke-width='1.2' fill='none'/%3E%3Ctext x='30' y='93' font-size='8.5' font-family='Arial, sans-serif' text-anchor='middle' font-weight='bold' fill='%23d8b4fe' fill-opacity='0.09'%3E100%3C/text%3E%3C!-- Element 4: Geometrik Monogram Çiçeği --%3E%3Ccircle cx='90' cy='90' r='4'/%3E%3Ccircle cx='90' cy='80' r='3'/%3E%3Ccircle cx='90' cy='100' r='3'/%3E%3Ccircle cx='80' cy='90' r='3'/%3E%3Ccircle cx='100' cy='90' r='3'/%3E%3C/g%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='%23d8b4fe' fill-opacity='0.09'%3E%3Ccircle cx='30' cy='30' r='3.5'/%3E%3Ccircle cx='25' cy='25' r='3'/%3E%3Ccircle cx='35' cy='25' r='3'/%3E%3Ccircle cx='30' cy='20' r='2.5'/%3E%3Cpath d='M90 12 L93 25 L106 28 L93 31 L90 44 L87 31 L74 28 L87 25 Z'/%3E%3Ccircle cx='30' cy='90' r='13' stroke='%23d8b4fe' stroke-opacity='0.08' stroke-width='1.2' fill='none'/%3E%3Ctext x='30' y='93' font-size='8.5' font-family='Arial, sans-serif' text-anchor='middle' font-weight='bold' fill='%23d8b4fe' fill-opacity='0.09'%3E100%3C/text%3E%3Ccircle cx='90' cy='90' r='4'/%3E%3Ccircle cx='90' cy='80' r='3'/%3E%3Ccircle cx='90' cy='100' r='3'/%3E%3Ccircle cx='80' cy='90' r='3'/%3E%3Ccircle cx='100' cy='90' r='3'/%3E%3C/g%3E%3C/svg%3E");
             background-repeat: repeat;
             z-index: 1;
             pointer-events: none;
         }
 
-        /* Atmosfere Derinlik Katan Arka Plan Işıkları */
         .glow-orb {
             position: fixed;
             width: 600px;
@@ -81,12 +82,14 @@
             margin-bottom: 0.5rem;
         }
 
+        /* İstediğin Kalın, Dolgulu ve Premium Amblem Fontu */
         header h1 {
-            font-size: 2.2rem;
+            font-family: 'Syne', sans-serif;
+            font-weight: 800;
+            font-size: 2.4rem;
             color: var(--text-pure);
-            letter-spacing: 0.25em;
-            font-weight: 300;
-            text-shadow: 0 0 25px rgba(192, 132, 252, 0.3);
+            letter-spacing: 0.12em;
+            text-shadow: 0 0 30px rgba(192, 132, 252, 0.4);
         }
 
         .divider {
@@ -95,21 +98,20 @@
             justify-content: center;
             gap: 1.2rem;
             color: var(--text-dim);
-            font-size: 0.78rem;
-            letter-spacing: 0.15em;
+            font-size: 0.8rem;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            font-weight: 500;
+            font-weight: 900;
             margin: -0.5rem 0;
         }
 
         .divider::before, .divider::after {
             content: "";
             flex: 1;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(126, 111, 154, 0.3), transparent);
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(126, 111, 154, 0.4), transparent);
         }
 
-        /* 1. BÖLÜM: DİJİTAL OYNATICILAR */
         .player-list {
             display: flex;
             flex-direction: column;
@@ -120,18 +122,17 @@
             background: var(--card-glass);
             border: 1px solid rgba(192, 132, 252, 0.16);
             border-radius: 12px;
-            padding: 1.3rem;
+            padding: 1.4rem;
             backdrop-filter: blur(25px);
             box-shadow: 0 12px 35px rgba(0, 0, 0, 0.4);
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 1rem;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .custom-player-card:hover {
             border-color: rgba(192, 132, 252, 0.35);
-            box-shadow: 0 12px 35px rgba(192, 132, 252, 0.08);
             transform: translateY(-2px);
         }
 
@@ -142,18 +143,10 @@
         }
 
         .track-name {
-            font-size: 0.95rem;
-            font-weight: 400;
-            letter-spacing: 0.04em;
+            font-size: 1rem;
+            font-weight: 700;
+            letter-spacing: 0.02em;
             color: var(--text-pure);
-        }
-
-        .track-status {
-            font-size: 0.72rem;
-            color: var(--text-silver);
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            opacity: 0.8;
         }
 
         .controls-row {
@@ -163,11 +156,11 @@
         }
 
         .play-pause-btn {
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             background: rgba(192, 132, 252, 0.08);
-            border: 1px solid var(--accent-purple);
+            border: 1.5px solid var(--accent-purple);
             color: var(--text-pure);
             cursor: pointer;
             display: flex;
@@ -190,9 +183,9 @@
 
         .timeline-container {
             flex: 1;
-            height: 4px;
+            height: 5px;
             background: rgba(255, 255, 255, 0.08);
-            border-radius: 2px;
+            border-radius: 3px;
             cursor: pointer;
             position: relative;
         }
@@ -201,21 +194,22 @@
             height: 100%;
             width: 0%;
             background: linear-gradient(90deg, var(--accent-purple), #e9d5ff);
-            border-radius: 2px;
+            border-radius: 3px;
             position: absolute;
             top: 0;
             left: 0;
         }
 
         .time-display {
-            font-size: 0.75rem;
+            font-size: 0.78rem;
             color: var(--text-silver);
+            font-weight: 700;
             min-width: 85px;
             text-align: right;
             font-variant-numeric: tabular-nums;
         }
 
-        /* 2. BÖLÜM: OYLAMA ALANI */
+        /* OYLAMA ALANI */
         .voting-section {
             background: rgba(18, 10, 33, 0.9);
             border: 1px solid rgba(192, 132, 252, 0.15);
@@ -235,10 +229,10 @@
         }
 
         .voting-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             color: var(--text-silver);
-            font-weight: 400;
-            letter-spacing: 0.08em;
+            font-weight: 700;
+            letter-spacing: 0.06em;
             text-transform: uppercase;
         }
 
@@ -248,9 +242,9 @@
             padding: 0.4rem 0.8rem;
             border-radius: 6px;
             font-size: 0.75rem;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.04em;
             color: var(--accent-purple);
-            font-weight: 600;
+            font-weight: 900;
         }
 
         .vote-list {
@@ -276,9 +270,9 @@
         }
 
         .vote-label {
-            font-size: 0.9rem;
-            letter-spacing: 0.03em;
+            font-size: 0.95rem;
             color: var(--text-silver);
+            font-weight: 700;
         }
 
         .vote-actions {
@@ -291,7 +285,7 @@
             width: 24px;
             height: 24px;
             background: transparent;
-            border: 1px solid rgba(192, 132, 252, 0.35);
+            border: 1.5px solid rgba(192, 132, 252, 0.35);
             border-radius: 5px;
             cursor: pointer;
             display: flex;
@@ -305,7 +299,6 @@
 
         .vote-btn:hover {
             border-color: var(--text-pure);
-            background: rgba(192, 132, 252, 0.08);
         }
 
         .vote-btn.voted {
@@ -317,7 +310,8 @@
 
         .vote-count {
             font-size: 0.85rem;
-            color: var(--text-dim);
+            color: var(--text-silver);
+            font-weight: 700;
             min-width: 65px;
             text-align: right;
             font-variant-numeric: tabular-nums;
@@ -337,13 +331,12 @@
 
         <div class="divider">Tracks</div>
 
-        <!-- BÖLÜM 1: MULTI-SOURCE NATIV SÜRÜCÜLÜ OYNATICILAR -->
+        <!-- BÖLÜM 1: NET NOKTA ATIŞI DOSYA YOLLARI -->
         <div class="player-list">
             <!-- Kart 1 -->
             <div class="custom-player-card" id="card-1">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 1</span>
-                    <span class="track-status" id="status-1">Ready</span>
                 </div>
                 <div class="controls-row">
                     <button class="play-pause-btn" id="play-btn-1" onclick="togglePlay(1)">
@@ -354,23 +347,14 @@
                     </div>
                     <span class="time-display" id="time-1">00:00</span>
                 </div>
-                <!-- Tüm olası dosya kombinasyonları nativ olarak alt alta dizildi -->
-                <audio id="audio-1" preload="metadata">
-                    <source src="tracks/1.mp3" type="audio/mpeg">
-                    <source src="1.mp3" type="audio/mpeg">
-                    <source src="Tracks/1.mp3" type="audio/mpeg">
-                    <source src="tracks/100%C3%9CZ%C3%9CM100%201.mp3" type="audio/mpeg">
-                    <source src="tracks/100ÜZÜM100 1.mp3" type="audio/mpeg">
-                    <source src="100%C3%9CZ%C3%9CM100%201.mp3" type="audio/mpeg">
-                    <source src="100ÜZÜM100 1.mp3" type="audio/mpeg">
-                </audio>
+                <!-- Sunucu için tam kodlanmış mutlak dosya yolu -->
+                <audio id="audio-1" src="tracks/100%C3%9CZ%C3%9CM100%201.mp3" preload="metadata"></audio>
             </div>
 
             <!-- Kart 2 -->
             <div class="custom-player-card" id="card-2">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 2</span>
-                    <span class="track-status" id="status-2">Ready</span>
                 </div>
                 <div class="controls-row">
                     <button class="play-pause-btn" id="play-btn-2" onclick="togglePlay(2)">
@@ -381,22 +365,13 @@
                     </div>
                     <span class="time-display" id="time-2">00:00</span>
                 </div>
-                <audio id="audio-2" preload="metadata">
-                    <source src="tracks/2.mp3" type="audio/mpeg">
-                    <source src="2.mp3" type="audio/mpeg">
-                    <source src="Tracks/2.mp3" type="audio/mpeg">
-                    <source src="tracks/100%C3%9CZ%C3%9CM100%202.mp3" type="audio/mpeg">
-                    <source src="tracks/100ÜZÜM100 2.mp3" type="audio/mpeg">
-                    <source src="100%C3%9CZ%C3%9CM100%202.mp3" type="audio/mpeg">
-                    <source src="100ÜZÜM100 2.mp3" type="audio/mpeg">
-                </audio>
+                <audio id="audio-2" src="tracks/100%C3%9CZ%C3%9CM100%202.mp3" preload="metadata"></audio>
             </div>
 
             <!-- Kart 3 -->
             <div class="custom-player-card" id="card-3">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 3</span>
-                    <span class="track-status" id="status-3">Ready</span>
                 </div>
                 <div class="controls-row">
                     <button class="play-pause-btn" id="play-btn-3" onclick="togglePlay(3)">
@@ -407,22 +382,13 @@
                     </div>
                     <span class="time-display" id="time-3">00:00</span>
                 </div>
-                <audio id="audio-3" preload="metadata">
-                    <source src="tracks/3.mp3" type="audio/mpeg">
-                    <source src="3.mp3" type="audio/mpeg">
-                    <source src="Tracks/3.mp3" type="audio/mpeg">
-                    <source src="tracks/100%C3%9CZ%C3%9CM100%203.mp3" type="audio/mpeg">
-                    <source src="tracks/100ÜZÜM100 3.mp3" type="audio/mpeg">
-                    <source src="100%C3%9CZ%C3%9CM100%203.mp3" type="audio/mpeg">
-                    <source src="100ÜZÜM100 3.mp3" type="audio/mpeg">
-                </audio>
+                <audio id="audio-3" src="tracks/100%C3%9CZ%C3%9CM100%203.mp3" preload="metadata"></audio>
             </div>
 
             <!-- Kart 4 -->
             <div class="custom-player-card" id="card-4">
                 <div class="track-info">
                     <span class="track-name">100ÜZÜM100 4</span>
-                    <span class="track-status" id="status-4">Ready</span>
                 </div>
                 <div class="controls-row">
                     <button class="play-pause-btn" id="play-btn-4" onclick="togglePlay(4)">
@@ -433,15 +399,7 @@
                     </div>
                     <span class="time-display" id="time-4">00:00</span>
                 </div>
-                <audio id="audio-4" preload="metadata">
-                    <source src="tracks/4.mp3" type="audio/mpeg">
-                    <source src="4.mp3" type="audio/mpeg">
-                    <source src="Tracks/4.mp3" type="audio/mpeg">
-                    <source src="tracks/100%C3%9CZ%C3%9CM100%204.mp3" type="audio/mpeg">
-                    <source src="tracks/100ÜZÜM100 4.mp3" type="audio/mpeg">
-                    <source src="100%C3%9CZ%C3%9CM100%204.mp3" type="audio/mpeg">
-                    <source src="100ÜZÜM100 4.mp3" type="audio/mpeg">
-                </audio>
+                <audio id="audio-4" src="tracks/100%C3%9CZ%C3%9CM100%204.mp3" preload="metadata"></audio>
             </div>
         </div>
 
@@ -497,39 +455,27 @@
 
         async function togglePlay(id) {
             const audio = document.getElementById(`audio-${id}`);
-            const status = document.getElementById(`status-${id}`);
             const btn = document.getElementById(`play-btn-${id}`);
 
-            // Başka bir şarkı çalıyorsa veya yükleniyorsa onu duraklat ve temizle
             if (currentlyPlayingId && currentlyPlayingId !== id) {
                 const oldAudio = document.getElementById(`audio-${currentlyPlayingId}`);
                 oldAudio.pause();
                 document.getElementById(`play-btn-${currentlyPlayingId}`).innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-                document.getElementById(`status-${currentlyPlayingId}`).innerText = "Paused";
             }
 
             if (audio.paused) {
-                status.innerText = "Loading...";
+                btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+                currentlyPlayingId = id;
                 try {
-                    // Kullanıcı etkileşimi token'ı bozulmadan nativ kaynak tetiklenir
                     await audio.play();
-                    status.innerText = "Playing";
-                    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
-                    currentlyPlayingId = id;
                 } catch (error) {
-                    console.error("Playback error:", error);
-                    // Eğer tüm nativ kaynaklar tükendiyse ağ durumunu kontrol et
-                    if (audio.networkState === 3 || audio.error) {
-                        status.innerText = "Not Found";
-                        status.style.color = "#ef4444";
-                    } else {
-                        status.innerText = "Error - Retry";
-                    }
+                    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+                    if (currentlyPlayingId === id) currentlyPlayingId = null;
+                    console.error("Playback failed:", error);
                 }
             } else {
                 audio.pause();
                 btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-                status.innerText = "Paused";
                 if (currentlyPlayingId === id) currentlyPlayingId = null;
             }
         }
@@ -539,13 +485,6 @@
                 const audio = document.getElementById(`audio-${id}`);
                 const progress = document.getElementById(`progress-${id}`);
                 const timeDisplay = document.getElementById(`time-${id}`);
-                const status = document.getElementById(`status-${id}`);
-
-                // Eğer tarayıcı tüm kaynakları tarayıp hiçbirini açamazsa tetiklenir
-                audio.addEventListener('error', () => {
-                    status.innerText = "Not Found";
-                    status.style.color = "#ef4444";
-                });
 
                 audio.addEventListener('timeupdate', () => {
                     if (audio.duration) {
@@ -561,7 +500,6 @@
                 });
 
                 audio.addEventListener('loadedmetadata', () => {
-                    status.innerText = "Ready";
                     const durMins = Math.floor(audio.duration / 60).toString().padStart(2, '0');
                     const durSecs = Math.floor(audio.duration % 60).toString().padStart(2, '0');
                     timeDisplay.innerText = `00:00 / ${durMins}:${durSecs}`;
@@ -569,7 +507,6 @@
 
                 audio.addEventListener('ended', () => {
                     document.getElementById(`play-btn-${id}`).innerHTML = '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
-                    status.innerText = "Finished";
                     progress.style.width = '0%';
                     if (currentlyPlayingId === id) currentlyPlayingId = null;
                 });
@@ -586,7 +523,6 @@
             }
         }
 
-        // SUPABASE VERİTABANI BAĞLANTISI
         async function fetchVotes() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/votes?select=*`, {
