@@ -4,37 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>100ÜZÜM100</title>
-    <!-- Mor Üzüm Favicon Bağlantısı -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
     <style>
-        /* Canlı, Cıvıl Cıvıl ve Premium Desenli Mor Renk Paleti */
+        /* Elit, Mat ve Premium Renk Paleti */
         :root {
-            --bg-start: #2e1a47; /* Üst kısım canlı mor */
-            --bg-end: #140b24;   /* Alt kısım derin asil mor */
-            --card-bg: rgba(53, 33, 87, 0.8); /* Belirgin ve şık kartlar */
-            --card-border: rgba(199, 125, 255, 0.4); /* Parlak kenarlıklar */
-            --text-color: #ffffff;
-            --accent-color: #c77dff; /* Cıvıl cıvıl parlak mor */
-            --accent-hover: #e0aaff;
-            --voted-color: #38b000;  /* Oy verildiğinde yeşil kutu */
+            --bg-start: #231538; /* Mat ve asil koyu mor */
+            --bg-end: #11091c;
+            --card-bg: rgba(43, 27, 69, 0.9);
+            --card-border: rgba(141, 77, 199, 0.3); /* Parlak olmayan, zarif kenarlık */
+            --text-color: #f1ecf7;
+            --text-muted: #a395b8;
+            --voted-color: #2b8a00; /* Mat yeşil oy rengi */
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* Premium, ince ve keskin font ailesi (Glow efektsiz) */
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            /* Duvar boyası görüntüsünü yok eden zengin gradyan arka plan */
-            background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+            background: linear-gradient(180deg, var(--bg-start), var(--bg-end));
             color: var(--text-color);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2.5rem 1rem;
+            padding: 3rem 1rem;
             overflow-x: hidden;
             position: relative;
         }
@@ -47,9 +46,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Göz yormayan, asil duran büyük üzüm salkımı SVG arka plan deseni */
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%239d4edd' fill-opacity='0.07'%3E%3Ccircle cx='40' cy='30' r='10'/%3E%3Ccircle cx='30' cy='45' r='8'/%3E%3Ccircle cx='50' cy='45' r='8'/%3E%3Ccircle cx='40' cy='58' r='7'/%3E%3Cpath d='M40 10 L40 20 M35 12 Q40 8 45 15' stroke='%239d4edd' stroke-width='2' fill='none'/%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.8;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='80' viewBox='0 0 80 80'%3E%3Cg fill='%238d4dc7' fill-opacity='0.04'%3E%3Ccircle cx='40' cy='30' r='10'/%3E%3Ccircle cx='30' cy='45' r='8'/%3E%3Ccircle cx='50' cy='45' r='8'/%3E%3Ccircle cx='40' cy='58' r='7'/%3E%3Cpath d='M40 10 L40 20 M35 12 Q40 8 45 15' stroke='%238d4dc7' stroke-width='1.5' fill='none'/%3E%3C/g%3E%3C/svg%3E");
             z-index: 0;
             pointer-events: none;
         }
@@ -68,18 +65,15 @@
         .falling-grape {
             position: absolute;
             top: -50px;
-            font-size: 24px;
-            opacity: 0.25;
+            font-size: 22px;
+            opacity: 0.15;
             animation: fall linear infinite;
         }
 
         @keyframes fall {
             0% {
                 transform: translateY(0) rotate(0deg);
-                opacity: 0.25;
-            }
-            80% {
-                opacity: 0.20;
+                opacity: 0.15;
             }
             100% {
                 transform: translateY(110vh) rotate(360deg);
@@ -89,71 +83,64 @@
 
         .container {
             width: 100%;
-            max-width: 600px;
+            max-width: 550px;
             z-index: 2;
             position: relative;
             display: flex;
             flex-direction: column;
-            gap: 2.5rem;
+            gap: 3rem;
         }
 
         header {
             text-align: center;
-            margin-bottom: 0.5rem;
         }
 
+        /* Parlamayan, Tamamen Mat ve Premium Başlık */
         header h1 {
-            font-size: 3rem;
+            font-size: 2.6rem;
             color: #ffffff;
-            text-shadow: 0 0 25px rgba(199, 125, 255, 0.9);
-            letter-spacing: 3px;
-            font-weight: 800;
+            letter-spacing: 5px;
+            font-weight: 300; /* Daha ince ve lüks durması için modern incelik */
+            text-shadow: none; /* Parlama tamamen kaldırıldı */
         }
 
         /* 1. BÖLÜM: ŞARKI LİSTESİ */
         .player-list {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 1.5rem;
         }
 
         .player-card {
             background: var(--card-bg);
             border: 1px solid var(--card-border);
-            border-radius: 14px;
-            padding: 1.2rem;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .player-card:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
         }
 
         .player-card .song-title {
-            font-size: 1.15rem;
-            font-weight: 600;
-            margin-bottom: 0.8rem;
+            font-size: 1.05rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
             display: block;
             letter-spacing: 0.5px;
+            color: #ffffff;
         }
 
-        /* Tarayıcı Hatasını Çözen Güvenli ve Kusursuz Audio Yapısı */
+        /* Tarayıcıların Oynatma Motorunu Kilitlemeyen Sade Ham Yapı */
         audio {
             width: 100%;
             display: block;
-            outline: none;
         }
 
         /* 2. BÖLÜM: OYLAMA ALANI */
         .voting-section {
-            background: rgba(43, 23, 77, 0.9);
-            border: 2px solid var(--accent-color);
-            border-radius: 16px;
+            background: rgba(30, 18, 51, 0.95);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
             padding: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
         }
 
         .voting-header {
@@ -164,49 +151,49 @@
             gap: 1rem;
         }
 
+        /* Mat ve Temiz Başlıklar */
         .voting-title {
-            font-size: 1.25rem;
+            font-size: 1.15rem;
             color: #ffffff;
-            font-weight: 700;
+            font-weight: 400;
             letter-spacing: 0.5px;
         }
 
         .total-votes-box {
-            background: #1e1233;
-            border: 1px solid var(--accent-color);
+            background: rgba(17, 9, 28, 0.6);
+            border: 1px solid var(--card-border);
             padding: 0.4rem 0.8rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 500;
             white-space: nowrap;
-            box-shadow: 0 0 10px rgba(199, 125, 255, 0.3);
+            letter-spacing: 0.5px;
         }
 
         .vote-list {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.8rem;
         }
 
         .vote-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: rgba(74, 46, 120, 0.5);
-            padding: 0.9rem 1.2rem;
-            border-radius: 10px;
+            background: rgba(56, 36, 89, 0.4);
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
             border: 1px solid transparent;
-            transition: all 0.2s ease;
+            transition: background 0.2s ease;
         }
 
         .vote-row:hover {
-            border-color: rgba(199, 125, 255, 0.4);
-            background: rgba(74, 46, 120, 0.7);
+            background: rgba(56, 36, 89, 0.6);
         }
 
         .vote-label {
-            font-size: 1.05rem;
-            font-weight: 500;
+            font-size: 0.95rem;
+            font-weight: 400;
         }
 
         .vote-actions {
@@ -217,27 +204,26 @@
 
         /* Küp Şeklinde Kare Buton */
         .vote-btn {
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             background: transparent;
-            border: 2px solid var(--accent-color);
-            border-radius: 8px;
+            border: 1.5px solid var(--text-muted);
+            border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
             color: transparent;
-            font-size: 1.1rem;
-            font-weight: bold;
+            font-size: 1rem;
             transition: all 0.2s ease;
         }
 
         .vote-btn:hover {
-            background: rgba(199, 125, 255, 0.2);
-            border-color: var(--accent-hover);
+            border-color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* Oy verilmiş yeşil buton durumu */
+        /* Oy verilmiş mat yeşil durum */
         .vote-btn.voted {
             border-color: var(--voted-color);
             background: var(--voted-color);
@@ -245,16 +231,15 @@
         }
 
         .vote-count {
-            font-size: 0.95rem;
-            color: #d2c7e5;
-            min-width: 65px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            min-width: 60px;
             text-align: right;
         }
     </style>
 </head>
 <body>
 
-    <!-- Üzüm Yağmuru İçin Alan -->
     <div class="grape-container" id="grapeContainer"></div>
 
     <div class="container">
@@ -262,43 +247,41 @@
             <h1>100ÜZÜM100</h1>
         </header>
 
-        <!-- BÖLÜM 1: ŞARKI LİSTESİ (Ses Sorununu Çözen `./` Yapısı) -->
         <div class="player-list">
-            <!-- Şarkı 1 -->
             <div class="player-card">
                 <span class="song-title">100ÜZÜM100 1</span>
                 <audio controls preload="auto">
+                    <source src="1.mp3" type="audio/mpeg">
+                    <source src="1.MP3" type="audio/mpeg">
                     <source src="./1.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
                 </audio>
             </div>
-            <!-- Şarkı 2 -->
             <div class="player-card">
                 <span class="song-title">100ÜZÜM100 2</span>
                 <audio controls preload="auto">
+                    <source src="2.mp3" type="audio/mpeg">
+                    <source src="2.MP3" type="audio/mpeg">
                     <source src="./2.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
                 </audio>
             </div>
-            <!-- Şarkı 3 -->
             <div class="player-card">
                 <span class="song-title">100ÜZÜM100 3</span>
                 <audio controls preload="auto">
+                    <source src="3.mp3" type="audio/mpeg">
+                    <source src="3.MP3" type="audio/mpeg">
                     <source src="./3.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
                 </audio>
             </div>
-            <!-- Şarkı 4 -->
             <div class="player-card">
                 <span class="song-title">100ÜZÜM100 4</span>
                 <audio controls preload="auto">
+                    <source src="4.mp3" type="audio/mpeg">
+                    <source src="4.MP3" type="audio/mpeg">
                     <source src="./4.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
                 </audio>
             </div>
         </div>
 
-        <!-- BÖLÜM 2: OYLAMA ALANI -->
         <section class="voting-section">
             <div class="voting-header">
                 <h2 class="voting-title">Which one did you like the most?</h2>
@@ -306,7 +289,6 @@
             </div>
 
             <div class="vote-list">
-                <!-- Oy Satırı 1 -->
                 <div class="vote-row" data-id="1">
                     <span class="vote-label">100ÜZÜM100 1</span>
                     <div class="vote-actions">
@@ -314,7 +296,6 @@
                         <span class="vote-count" id="count-1">0 votes</span>
                     </div>
                 </div>
-                <!-- Oy Satırı 2 -->
                 <div class="vote-row" data-id="2">
                     <span class="vote-label">100ÜZÜM100 2</span>
                     <div class="vote-actions">
@@ -322,7 +303,6 @@
                         <span class="vote-count" id="count-2">0 votes</span>
                     </div>
                 </div>
-                <!-- Oy Satırı 3 -->
                 <div class="vote-row" data-id="3">
                     <span class="vote-label">100ÜZÜM100 3</span>
                     <div class="vote-actions">
@@ -330,7 +310,6 @@
                         <span class="vote-count" id="count-3">0 votes</span>
                     </div>
                 </div>
-                <!-- Oy Satırı 4 -->
                 <div class="vote-row" data-id="4">
                     <span class="vote-label">100ÜZÜM100 4</span>
                     <div class="vote-actions">
@@ -343,14 +322,12 @@
     </div>
 
     <script>
-        // Supabase Bağlantı Bilgileri
         const SUPABASE_URL = "https://iugqearshkagosjttxff.supabase.co";
         const SUPABASE_KEY = "sb_publishable_pZGpAKyc4Ulj8pvKYUSE7g_2g73jxLa";
 
         let userVotedSongId = localStorage.getItem('votedSongId') ? parseInt(localStorage.getItem('votedSongId')) : null;
         let currentVotesData = {};
 
-        // Veritabanından oyları çekme
         async function fetchVotes() {
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/votes?select=*`, {
@@ -373,11 +350,10 @@
                 document.getElementById('totalVotes').innerText = total;
                 updateButtonStates();
             } catch (error) {
-                console.error("Oylar çekilirken hata oluştu:", error);
+                console.error("Error fetching votes:", error);
             }
         }
 
-        // Butonların durumunu günceller
         function updateButtonStates() {
             const rows = document.querySelectorAll('.vote-row');
             rows.forEach(row => {
@@ -391,7 +367,6 @@
             });
         }
 
-        // Veritabanı güncelleme (Patch)
         async function updateVoteInDatabase(songId, newCount) {
             try {
                 await fetch(`${SUPABASE_URL}/rest/v1/votes?id=eq.${songId}`, {
@@ -405,11 +380,10 @@
                     body: JSON.stringify({ vote_count: newCount })
                 });
             } catch (error) {
-                console.error("Veritabanı güncellenirken hata:", error);
+                console.error("Error updating database:", error);
             }
         }
 
-        // Oylama mekanizması (Tek oy hakkı)
         async function toggleVote(songId) {
             if (userVotedSongId === songId) {
                 const currentCount = currentVotesData[songId] || 0;
@@ -440,7 +414,6 @@
                 await updateVoteInDatabase(songId, newCount);
             }
 
-            // Arayüzü anlık güncelleme
             let total = 0;
             Object.keys(currentVotesData).forEach(id => {
                 total += currentVotesData[id];
@@ -451,11 +424,10 @@
             updateButtonStates();
         }
 
-        // Arka plan animasyonu (Kaybolarak düşen üzümler)
         function createGrapeRain() {
             const container = document.getElementById('grapeContainer');
-            const grapeEmojis = ['🍇', '🔮', '💜'];
-            const grapeCount = 15; // Ekranı boğmamak için ideal sayı
+            const grapeEmojis = ['🍇', '💜'];
+            const grapeCount = 12;
 
             for (let i = 0; i < grapeCount; i++) {
                 const grape = document.createElement('div');
@@ -463,9 +435,9 @@
                 grape.innerText = grapeEmojis[Math.floor(Math.random() * grapeEmojis.length)];
                 
                 grape.style.left = `${Math.random() * 100}vw`;
-                grape.style.animationDuration = `${Math.random() * 8 + 7}s`; // 7-15 saniye arası akıcı düşüş
-                grape.style.animationDelay = `${Math.random() * 12}s`;
-                grape.style.fontSize = `${Math.random() * 12 + 16}px`;
+                grape.style.animationDuration = `${Math.random() * 8 + 8}s`;
+                grape.style.animationDelay = `${Math.random() * 10}s`;
+                grape.style.fontSize = `${Math.random() * 10 + 16}px`;
 
                 container.appendChild(grape);
             }
