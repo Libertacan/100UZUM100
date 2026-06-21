@@ -422,7 +422,7 @@
         }
 
     
-        /* Subtle falling grape background */
+        /* Falling grapes background - visible but subtle */
         .falling-grape-layer {
             position: fixed;
             inset: 0;
@@ -433,29 +433,30 @@
 
         .falling-grape {
             position: absolute;
-            top: -12vh;
-            color: rgba(216, 180, 254, 0.09);
-            font-size: 1.35rem;
-            filter: blur(0.15px);
-            animation-name: grapeFall;
+            top: -15vh;
+            font-size: 1.65rem;
+            opacity: 0;
+            filter: grayscale(20%) saturate(85%);
+            text-shadow: 0 0 10px rgba(216, 180, 254, 0.12);
+            animation-name: grapeFloatDown;
             animation-timing-function: linear;
             animation-iteration-count: infinite;
             will-change: transform, opacity;
         }
 
-        @keyframes grapeFall {
+        @keyframes grapeFloatDown {
             0% {
-                transform: translate3d(0, -12vh, 0) rotate(0deg);
+                transform: translate3d(0, -15vh, 0) rotate(0deg);
                 opacity: 0;
             }
-            12% {
-                opacity: 0.09;
+            10% {
+                opacity: 0.16;
             }
-            82% {
-                opacity: 0.09;
+            72% {
+                opacity: 0.12;
             }
             100% {
-                transform: translate3d(var(--drift), 112vh, 0) rotate(35deg);
+                transform: translate3d(var(--drift), 115vh, 0) rotate(40deg);
                 opacity: 0;
             }
         }
@@ -463,6 +464,19 @@
     </style>
 </head>
 <body>
+
+    <div class="falling-grape-layer" aria-hidden="true">
+        <span class="falling-grape" style="left:4%; --drift:18px; animation-duration:16s; animation-delay:-1s;">🍇</span>
+        <span class="falling-grape" style="left:12%; --drift:-14px; animation-duration:22s; animation-delay:-9s;">🍇</span>
+        <span class="falling-grape" style="left:23%; --drift:20px; animation-duration:19s; animation-delay:-5s;">🍇</span>
+        <span class="falling-grape" style="left:36%; --drift:-22px; animation-duration:25s; animation-delay:-13s;">🍇</span>
+        <span class="falling-grape" style="left:49%; --drift:15px; animation-duration:18s; animation-delay:-7s;">🍇</span>
+        <span class="falling-grape" style="left:61%; --drift:-16px; animation-duration:24s; animation-delay:-15s;">🍇</span>
+        <span class="falling-grape" style="left:74%; --drift:19px; animation-duration:20s; animation-delay:-3s;">🍇</span>
+        <span class="falling-grape" style="left:88%; --drift:-18px; animation-duration:27s; animation-delay:-18s;">🍇</span>
+        <span class="falling-grape" style="left:96%; --drift:-24px; animation-duration:21s; animation-delay:-11s;">🍇</span>
+    </div>
+
 
     <div class="glow-orb orb-1"></div>
     <div class="glow-orb orb-2"></div>
