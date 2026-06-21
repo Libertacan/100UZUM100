@@ -444,6 +444,7 @@
     <script>
         const SUPABASE_URL = "https://iugqearshkagosjttxff.supabase.co";
         const SUPABASE_KEY = "sb_publishable_pZGpAKyc4Ulj8pvKYUSE7g_2g73jxLa";
+
         const TRACK_COUNT = 4;
         const AUDIO_FILES = {
             1: "tracks/100uzum100-1.mp3",
@@ -457,6 +458,7 @@
             : null;
 
         let currentVotesData = { 1: 0, 2: 0, 3: 0, 4: 0 };
+        let voteBusy = false;
 
         function playIcon() {
             return '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
@@ -477,7 +479,8 @@
             for (let id = 1; id <= TRACK_COUNT; id++) {
                 const audio = document.getElementById(`audio-${id}`);
                 if (!audio) continue;
-                audio.src = AUDIO_FILES[id];
+
+                audio.src = AUDIO_FILES[id] + "?v=3";
                 audio.preload = "metadata";
                 audio.load();
             }
@@ -486,12 +489,14 @@
         async function togglePlay(id) {
             const audio = document.getElementById(`audio-${id}`);
             const btn = document.getElementById(`play-btn-${id}`);
+
             if (!audio || !btn) return;
 
             for (let i = 1; i <= TRACK_COUNT; i++) {
                 if (i === id) continue;
                 const otherAudio = document.getElementById(`audio-${i}`);
                 const otherBtn = document.getElementById(`play-btn-${i}`);
+
                 if (otherAudio) otherAudio.pause();
                 if (otherBtn) otherBtn.innerHTML = playIcon();
             }
@@ -505,8 +510,8 @@
                     btn.innerHTML = playIcon();
                 }
             } catch (err) {
-                console.error("Playback failed for:", audio.src, err);
-                alert("This track could not be played. Check that the file exists exactly as: " + AUDIO_FILES[id]);
+                console.error("Playback failed:", audio.src, err);
+                alert("Track could not be played. Re-upload the new MP3 files from the latest package.");
             }
         }
 
@@ -516,11 +521,13 @@
                 const progress = document.getElementById(`progress-${id}`);
                 const timeDisplay = document.getElementById(`time-${id}`);
                 const btn = document.getElementById(`play-btn-${id}`);
+
                 if (!audio || !progress || !timeDisplay) continue;
 
                 audio.addEventListener("timeupdate", () => {
                     if (audio.duration) {
-                        progress.style.width = `${(audio.currentTime / audio.duration) * 100}%`;
+                        const percentage = (audio.currentTime / audio.duration) * 100;
+                        progress.style.width = `${percentage}%`;
                         timeDisplay.innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
                     }
                 });
@@ -544,8 +551,10 @@
         function seekAudio(event, id) {
             const audio = document.getElementById(`audio-${id}`);
             if (!audio || !audio.duration) return;
+
             const rect = event.currentTarget.getBoundingClientRect();
-            audio.currentTime = ((event.clientX - rect.left) / rect.width) * audio.duration;
+            const percentage = (event.clientX - rect.left) / rect.width;
+            audio.currentTime = percentage * audio.duration;
         }
 
         async function supabaseRequest(path, options = {}) {
@@ -571,6 +580,7 @@
             try {
                 const response = await supabaseRequest("votes?select=id,count&order=id.asc");
                 const data = await response.json();
+
                 currentVotesData = { 1: 0, 2: 0, 3: 0, 4: 0 };
 
                 if (Array.isArray(data)) {
@@ -581,24 +591,29 @@
                         }
                     });
                 }
-
-                renderVotes();
             } catch (error) {
-                console.error("Vote fetch failed:", error);
-                renderVotes();
+                console.error("Fetch votes failed:", error);
             }
+
+            renderVotes();
         }
 
         function renderVotes() {
             let total = 0;
+
             for (let id = 1; id <= TRACK_COUNT; id++) {
                 const count = currentVotesData[id] || 0;
                 total += count;
+
                 const countEl = document.getElementById(`count-${id}`);
-                if (countEl) countEl.innerText = `${count} ${count === 1 ? "vote" : "votes"}`;
+                if (countEl) {
+                    countEl.innerText = `${count} ${count === 1 ? "vote" : "votes"}`;
+                }
             }
+
             const totalEl = document.getElementById("totalVotes");
             if (totalEl) totalEl.innerText = total;
+
             updateButtonStates();
         }
 
@@ -607,36 +622,59 @@
                 const songId = parseInt(row.getAttribute("data-id"), 10);
                 const btn = row.querySelector(".vote-btn");
                 if (!btn) return;
-                btn.classList.toggle("voted", songId === userVotedSongId);
+
+                if (songId === userVotedSongId) {
+                    btn.classList.add("voted");
+                } else {
+                    btn.classList.remove("voted");
+                }
             });
         }
 
         async function setVoteCount(songId, newCount) {
             const safeCount = Math.max(0, Number(newCount) || 0);
-            await supabaseRequest(`votes?id=eq.${songId}`, {
+
+            const response = await supabaseRequest(`votes?id=eq.${songId}&select=id,count`, {
                 method: "PATCH",
-                headers: { "Prefer": "return=representation" },
+                headers: {
+                    "Prefer": "return=representation"
+                },
                 body: JSON.stringify({ count: safeCount })
             });
-            currentVotesData[songId] = safeCount;
+
+            const updatedRows = await response.json();
+
+            if (!Array.isArray(updatedRows) || updatedRows.length === 0) {
+                throw new Error("Supabase did not update the row. Check UPDATE RLS policy.");
+            }
+
+            currentVotesData[songId] = Number(updatedRows[0].count) || 0;
         }
 
         async function toggleVote(songId) {
+            if (voteBusy) return;
+            voteBusy = true;
+
             const previousVote = userVotedSongId;
 
             try {
                 await fetchVotes();
 
                 if (previousVote === songId) {
-                    await setVoteCount(songId, (currentVotesData[songId] || 0) - 1);
+                    const newCount = Math.max(0, (currentVotesData[songId] || 0) - 1);
+                    await setVoteCount(songId, newCount);
+
                     userVotedSongId = null;
                     localStorage.removeItem("votedSongId");
                 } else {
                     if (previousVote !== null && previousVote >= 1 && previousVote <= TRACK_COUNT) {
-                        await setVoteCount(previousVote, (currentVotesData[previousVote] || 0) - 1);
+                        const oldNewCount = Math.max(0, (currentVotesData[previousVote] || 0) - 1);
+                        await setVoteCount(previousVote, oldNewCount);
                     }
 
-                    await setVoteCount(songId, (currentVotesData[songId] || 0) + 1);
+                    const newCount = (currentVotesData[songId] || 0) + 1;
+                    await setVoteCount(songId, newCount);
+
                     userVotedSongId = songId;
                     localStorage.setItem("votedSongId", String(songId));
                 }
@@ -644,8 +682,10 @@
                 await fetchVotes();
             } catch (error) {
                 console.error("Vote update failed:", error);
-                alert("Vote could not be saved. Check Supabase UPDATE policy.");
+                alert("Vote could not be saved. Please check Supabase UPDATE policy.");
                 await fetchVotes();
+            } finally {
+                voteBusy = false;
             }
         }
 
