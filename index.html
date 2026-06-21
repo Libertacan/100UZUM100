@@ -207,6 +207,32 @@
             font-variant-numeric: tabular-nums;
         }
 
+
+        .waveform {
+            flex: 1;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            gap: 3px;
+            cursor: pointer;
+            position: relative;
+            padding: 0 2px;
+        }
+
+        .wave-bar {
+            flex: 1;
+            min-width: 2px;
+            height: 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            transition: height 0.08s linear, background 0.12s ease, box-shadow 0.12s ease;
+        }
+
+        .wave-bar.passed {
+            background: linear-gradient(180deg, #f3e8ff, var(--accent-purple));
+            box-shadow: 0 0 10px rgba(192, 132, 252, 0.35);
+        }
+
         /* OYLAMA ALANI */
         .voting-section {
             background: rgba(18, 10, 33, 0.9);
@@ -339,9 +365,7 @@
                     <button class="play-pause-btn" id="play-btn-1" onclick="togglePlay(1)">
                         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </button>
-                    <div class="timeline-container" onclick="seekAudio(event, 1)">
-                        <div class="timeline-progress" id="progress-1"></div>
-                    </div>
+                    <div class="waveform" id="waveform-1" onclick="seekAudio(event, 1)" aria-label="Track timeline"></div>
                     <span class="time-display" id="time-1">00:00</span>
                 </div>
                 <audio id="audio-1" src="tracks/100uzum100-1.mp3" preload="metadata"></audio>
@@ -356,9 +380,7 @@
                     <button class="play-pause-btn" id="play-btn-2" onclick="togglePlay(2)">
                         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </button>
-                    <div class="timeline-container" onclick="seekAudio(event, 2)">
-                        <div class="timeline-progress" id="progress-2"></div>
-                    </div>
+                    <div class="waveform" id="waveform-2" onclick="seekAudio(event, 2)" aria-label="Track timeline"></div>
                     <span class="time-display" id="time-2">00:00</span>
                 </div>
                 <audio id="audio-2" src="tracks/100uzum100-2.mp3" preload="metadata"></audio>
@@ -373,9 +395,7 @@
                     <button class="play-pause-btn" id="play-btn-3" onclick="togglePlay(3)">
                         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </button>
-                    <div class="timeline-container" onclick="seekAudio(event, 3)">
-                        <div class="timeline-progress" id="progress-3"></div>
-                    </div>
+                    <div class="waveform" id="waveform-3" onclick="seekAudio(event, 3)" aria-label="Track timeline"></div>
                     <span class="time-display" id="time-3">00:00</span>
                 </div>
                 <audio id="audio-3" src="tracks/100uzum100-3.mp3" preload="metadata"></audio>
@@ -390,9 +410,7 @@
                     <button class="play-pause-btn" id="play-btn-4" onclick="togglePlay(4)">
                         <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
                     </button>
-                    <div class="timeline-container" onclick="seekAudio(event, 4)">
-                        <div class="timeline-progress" id="progress-4"></div>
-                    </div>
+                    <div class="waveform" id="waveform-4" onclick="seekAudio(event, 4)" aria-label="Track timeline"></div>
                     <span class="time-display" id="time-4">00:00</span>
                 </div>
                 <audio id="audio-4" src="tracks/100uzum100-4.mp3" preload="metadata"></audio>
@@ -446,6 +464,7 @@
         const SUPABASE_KEY = "sb_publishable_pZGpAKyc4Ulj8pvKYUSE7g_2g73jxLa";
 
         const TRACK_COUNT = 4;
+        const WAVE_BARS = 36;
         const AUDIO_FILES = {
             1: "tracks/100uzum100-1.mp3",
             2: "tracks/100uzum100-2.mp3",
@@ -459,6 +478,12 @@
 
         let currentVotesData = { 1: 0, 2: 0, 3: 0, 4: 0 };
         let voteBusy = false;
+        let animationFrameId = null;
+
+        const waveMemory = {};
+        for (let id = 1; id <= TRACK_COUNT; id++) {
+            waveMemory[id] = Array.from({ length: WAVE_BARS }, (_, i) => 8 + (Math.sin(i * 1.7 + id) + 1) * 7);
+        }
 
         function playIcon() {
             return '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
@@ -475,12 +500,65 @@
             return `${mins}:${secs}`;
         }
 
+        function setupWaveforms() {
+            for (let id = 1; id <= TRACK_COUNT; id++) {
+                const waveform = document.getElementById(`waveform-${id}`);
+                if (!waveform || waveform.children.length) continue;
+
+                for (let i = 0; i < WAVE_BARS; i++) {
+                    const bar = document.createElement("span");
+                    bar.className = "wave-bar";
+                    bar.style.height = `${waveMemory[id][i]}px`;
+                    waveform.appendChild(bar);
+                }
+            }
+        }
+
+        function updateWaveform(id) {
+            const audio = document.getElementById(`audio-${id}`);
+            const waveform = document.getElementById(`waveform-${id}`);
+            if (!audio || !waveform) return;
+
+            const bars = Array.from(waveform.children);
+            const progress = audio.duration ? audio.currentTime / audio.duration : 0;
+            const passedIndex = Math.floor(progress * bars.length);
+
+            const isPlaying = !audio.paused && !audio.ended;
+
+            bars.forEach((bar, index) => {
+                bar.classList.toggle("passed", index <= passedIndex);
+
+                if (isPlaying) {
+                    const pulse = Math.sin(Date.now() / 120 + index * 0.9 + id) * 0.5 + 0.5;
+                    const randomSoft = Math.random() * 0.35;
+                    const height = 7 + (pulse + randomSoft) * 24;
+                    bar.style.height = `${height}px`;
+                    waveMemory[id][index] = height;
+                } else {
+                    bar.style.height = `${waveMemory[id][index]}px`;
+                }
+            });
+        }
+
+        function startWaveAnimation() {
+            if (animationFrameId) return;
+
+            const loop = () => {
+                for (let id = 1; id <= TRACK_COUNT; id++) {
+                    updateWaveform(id);
+                }
+                animationFrameId = requestAnimationFrame(loop);
+            };
+
+            loop();
+        }
+
         function setupAudioElements() {
             for (let id = 1; id <= TRACK_COUNT; id++) {
                 const audio = document.getElementById(`audio-${id}`);
                 if (!audio) continue;
 
-                audio.src = AUDIO_FILES[id] + "?v=3";
+                audio.src = AUDIO_FILES[id] + "?v=4";
                 audio.preload = "metadata";
                 audio.load();
             }
@@ -505,9 +583,11 @@
                 if (audio.paused) {
                     await audio.play();
                     btn.innerHTML = pauseIcon();
+                    startWaveAnimation();
                 } else {
                     audio.pause();
                     btn.innerHTML = playIcon();
+                    updateWaveform(id);
                 }
             } catch (err) {
                 console.error("Playback failed:", audio.src, err);
@@ -518,28 +598,31 @@
         function setupAudioListeners() {
             for (let id = 1; id <= TRACK_COUNT; id++) {
                 const audio = document.getElementById(`audio-${id}`);
-                const progress = document.getElementById(`progress-${id}`);
                 const timeDisplay = document.getElementById(`time-${id}`);
                 const btn = document.getElementById(`play-btn-${id}`);
 
-                if (!audio || !progress || !timeDisplay) continue;
+                if (!audio || !timeDisplay) continue;
 
                 audio.addEventListener("timeupdate", () => {
                     if (audio.duration) {
-                        const percentage = (audio.currentTime / audio.duration) * 100;
-                        progress.style.width = `${percentage}%`;
                         timeDisplay.innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
+                        updateWaveform(id);
                     }
                 });
 
                 audio.addEventListener("loadedmetadata", () => {
                     timeDisplay.innerText = `00:00 / ${formatTime(audio.duration)}`;
+                    updateWaveform(id);
                 });
 
                 audio.addEventListener("ended", () => {
                     if (btn) btn.innerHTML = playIcon();
-                    progress.style.width = "0%";
                     audio.currentTime = 0;
+                    updateWaveform(id);
+                });
+
+                audio.addEventListener("pause", () => {
+                    updateWaveform(id);
                 });
 
                 audio.addEventListener("error", () => {
@@ -553,8 +636,9 @@
             if (!audio || !audio.duration) return;
 
             const rect = event.currentTarget.getBoundingClientRect();
-            const percentage = (event.clientX - rect.left) / rect.width;
+            const percentage = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
             audio.currentTime = percentage * audio.duration;
+            updateWaveform(id);
         }
 
         async function supabaseRequest(path, options = {}) {
@@ -690,6 +774,7 @@
         }
 
         window.addEventListener("load", async () => {
+            setupWaveforms();
             setupAudioElements();
             setupAudioListeners();
             await fetchVotes();
