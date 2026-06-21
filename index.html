@@ -421,6 +421,45 @@
             }
         }
 
+    
+        /* Subtle falling grape background */
+        .falling-grape-layer {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .falling-grape {
+            position: absolute;
+            top: -12vh;
+            color: rgba(216, 180, 254, 0.09);
+            font-size: 1.35rem;
+            filter: blur(0.15px);
+            animation-name: grapeFall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            will-change: transform, opacity;
+        }
+
+        @keyframes grapeFall {
+            0% {
+                transform: translate3d(0, -12vh, 0) rotate(0deg);
+                opacity: 0;
+            }
+            12% {
+                opacity: 0.09;
+            }
+            82% {
+                opacity: 0.09;
+            }
+            100% {
+                transform: translate3d(var(--drift), 112vh, 0) rotate(35deg);
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
