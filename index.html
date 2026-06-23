@@ -606,10 +606,7 @@
             4: "tracks/100uzum100-4.mp3"
         };
 
-        let userVotedSongId = localStorage.getItem("votedSongId")
-            ? parseInt(localStorage.getItem("votedSongId"), 10)
-            : null;
-
+        let userVotedSongId = localStorage.getItem("votedSongId") ? parseInt(localStorage.getItem("votedSongId"), 10) : null;
         let currentVotesData = { 1: 0, 2: 0, 3: 0, 4: 0 };
         let voteBusy = false;
         let animationFrameId = null;
@@ -619,13 +616,41 @@
             waveMemory[id] = Array.from({ length: WAVE_BARS }, (_, i) => 8 + (Math.sin(i * 1.7 + id) + 1) * 7);
         }
 
-        function playIcon() {
-            return '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>';
+        function getVisitorId() {
+            let visitorId = localStorage.getItem("visitorId");
+            if (!visitorId) {
+                visitorId = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : "visitor_" + Math.random().toString(36).slice(2) + Date.now().toString(36);
+                localStorage.setItem("visitorId", visitorId);
+            }
+            return visitorId;
         }
 
-        function pauseIcon() {
-            return '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>';
+        async function logPageView() {
+            try {
+                await supabaseRequest("page_views", {
+                    method: "POST",
+                    headers: { "Prefer": "return=minimal" },
+                    body: JSON.stringify({ visitor_id: getVisitorId() })
+                });
+            } catch (error) {
+                console.error("Page view log failed:", error);
+            }
         }
+
+        async function logVote(songId, action) {
+            try {
+                await supabaseRequest("vote_logs", {
+                    method: "POST",
+                    headers: { "Prefer": "return=minimal" },
+                    body: JSON.stringify({ song_id: songId, action: action })
+                });
+            } catch (error) {
+                console.error("Vote log failed:", error);
+            }
+        }
+
+        function playIcon() { return '<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>'; }
+        function pauseIcon() { return '<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>'; }
 
         function formatTime(seconds) {
             if (!Number.isFinite(seconds)) return "00:00";
@@ -638,7 +663,6 @@
             for (let id = 1; id <= TRACK_COUNT; id++) {
                 const waveform = document.getElementById(`waveform-${id}`);
                 if (!waveform || waveform.children.length) continue;
-
                 for (let i = 0; i < WAVE_BARS; i++) {
                     const bar = document.createElement("span");
                     bar.className = "wave-bar";
@@ -652,16 +676,12 @@
             const audio = document.getElementById(`audio-${id}`);
             const waveform = document.getElementById(`waveform-${id}`);
             if (!audio || !waveform) return;
-
             const bars = Array.from(waveform.children);
             const progress = audio.duration ? audio.currentTime / audio.duration : 0;
             const passedIndex = Math.floor(progress * bars.length);
-
             const isPlaying = !audio.paused && !audio.ended;
-
             bars.forEach((bar, index) => {
                 bar.classList.toggle("passed", index <= passedIndex);
-
                 if (isPlaying) {
                     const pulse = Math.sin(Date.now() / 120 + index * 0.9 + id) * 0.5 + 0.5;
                     const randomSoft = Math.random() * 0.35;
@@ -676,14 +696,10 @@
 
         function startWaveAnimation() {
             if (animationFrameId) return;
-
             const loop = () => {
-                for (let id = 1; id <= TRACK_COUNT; id++) {
-                    updateWaveform(id);
-                }
+                for (let id = 1; id <= TRACK_COUNT; id++) updateWaveform(id);
                 animationFrameId = requestAnimationFrame(loop);
             };
-
             loop();
         }
 
@@ -691,8 +707,7 @@
             for (let id = 1; id <= TRACK_COUNT; id++) {
                 const audio = document.getElementById(`audio-${id}`);
                 if (!audio) continue;
-
-                audio.src = AUDIO_FILES[id] + "?v=4";
+                audio.src = AUDIO_FILES[id] + "?v=analytics1";
                 audio.preload = "metadata";
                 audio.load();
             }
@@ -701,18 +716,14 @@
         async function togglePlay(id) {
             const audio = document.getElementById(`audio-${id}`);
             const btn = document.getElementById(`play-btn-${id}`);
-
             if (!audio || !btn) return;
-
             for (let i = 1; i <= TRACK_COUNT; i++) {
                 if (i === id) continue;
                 const otherAudio = document.getElementById(`audio-${i}`);
                 const otherBtn = document.getElementById(`play-btn-${i}`);
-
                 if (otherAudio) otherAudio.pause();
                 if (otherBtn) otherBtn.innerHTML = playIcon();
             }
-
             try {
                 if (audio.paused) {
                     await audio.play();
@@ -734,41 +745,30 @@
                 const audio = document.getElementById(`audio-${id}`);
                 const timeDisplay = document.getElementById(`time-${id}`);
                 const btn = document.getElementById(`play-btn-${id}`);
-
                 if (!audio || !timeDisplay) continue;
-
                 audio.addEventListener("timeupdate", () => {
                     if (audio.duration) {
                         timeDisplay.innerText = `${formatTime(audio.currentTime)} / ${formatTime(audio.duration)}`;
                         updateWaveform(id);
                     }
                 });
-
                 audio.addEventListener("loadedmetadata", () => {
                     timeDisplay.innerText = `00:00 / ${formatTime(audio.duration)}`;
                     updateWaveform(id);
                 });
-
                 audio.addEventListener("ended", () => {
                     if (btn) btn.innerHTML = playIcon();
                     audio.currentTime = 0;
                     updateWaveform(id);
                 });
-
-                audio.addEventListener("pause", () => {
-                    updateWaveform(id);
-                });
-
-                audio.addEventListener("error", () => {
-                    console.error("Audio loading error:", audio.src, audio.error);
-                });
+                audio.addEventListener("pause", () => updateWaveform(id));
+                audio.addEventListener("error", () => console.error("Audio loading error:", audio.src, audio.error));
             }
         }
 
         function seekAudio(event, id) {
             const audio = document.getElementById(`audio-${id}`);
             if (!audio || !audio.duration) return;
-
             const rect = event.currentTarget.getBoundingClientRect();
             const percentage = Math.min(1, Math.max(0, (event.clientX - rect.left) / rect.width));
             audio.currentTime = percentage * audio.duration;
@@ -785,12 +785,10 @@
                     ...(options.headers || {})
                 }
             });
-
             if (!response.ok) {
                 const text = await response.text();
                 throw new Error(`${response.status} ${response.statusText}: ${text}`);
             }
-
             return response;
         }
 
@@ -798,40 +796,29 @@
             try {
                 const response = await supabaseRequest("votes?select=id,count&order=id.asc");
                 const data = await response.json();
-
                 currentVotesData = { 1: 0, 2: 0, 3: 0, 4: 0 };
-
                 if (Array.isArray(data)) {
                     data.forEach(item => {
                         const id = Number(item.id);
-                        if (id >= 1 && id <= TRACK_COUNT) {
-                            currentVotesData[id] = Number(item.count) || 0;
-                        }
+                        if (id >= 1 && id <= TRACK_COUNT) currentVotesData[id] = Number(item.count) || 0;
                     });
                 }
             } catch (error) {
                 console.error("Fetch votes failed:", error);
             }
-
             renderVotes();
         }
 
         function renderVotes() {
             let total = 0;
-
             for (let id = 1; id <= TRACK_COUNT; id++) {
                 const count = currentVotesData[id] || 0;
                 total += count;
-
                 const countEl = document.getElementById(`count-${id}`);
-                if (countEl) {
-                    countEl.innerText = `${count} ${count === 1 ? "vote" : "votes"}`;
-                }
+                if (countEl) countEl.innerText = `${count} ${count === 1 ? "vote" : "votes"}`;
             }
-
             const totalEl = document.getElementById("totalVotes");
             if (totalEl) totalEl.innerText = total;
-
             updateButtonStates();
         }
 
@@ -840,63 +827,46 @@
                 const songId = parseInt(row.getAttribute("data-id"), 10);
                 const btn = row.querySelector(".vote-btn");
                 if (!btn) return;
-
-                if (songId === userVotedSongId) {
-                    btn.classList.add("voted");
-                } else {
-                    btn.classList.remove("voted");
-                }
+                btn.classList.toggle("voted", songId === userVotedSongId);
             });
         }
 
         async function setVoteCount(songId, newCount) {
             const safeCount = Math.max(0, Number(newCount) || 0);
-
             const response = await supabaseRequest(`votes?id=eq.${songId}&select=id,count`, {
                 method: "PATCH",
-                headers: {
-                    "Prefer": "return=representation"
-                },
+                headers: { "Prefer": "return=representation" },
                 body: JSON.stringify({ count: safeCount })
             });
-
             const updatedRows = await response.json();
-
-            if (!Array.isArray(updatedRows) || updatedRows.length === 0) {
-                throw new Error("Supabase did not update the row. Check UPDATE RLS policy.");
-            }
-
+            if (!Array.isArray(updatedRows) || updatedRows.length === 0) throw new Error("Supabase did not update the row. Check UPDATE RLS policy.");
             currentVotesData[songId] = Number(updatedRows[0].count) || 0;
         }
 
         async function toggleVote(songId) {
             if (voteBusy) return;
             voteBusy = true;
-
             const previousVote = userVotedSongId;
-
             try {
                 await fetchVotes();
-
                 if (previousVote === songId) {
                     const newCount = Math.max(0, (currentVotesData[songId] || 0) - 1);
                     await setVoteCount(songId, newCount);
-
+                    await logVote(songId, "remove");
                     userVotedSongId = null;
                     localStorage.removeItem("votedSongId");
                 } else {
                     if (previousVote !== null && previousVote >= 1 && previousVote <= TRACK_COUNT) {
                         const oldNewCount = Math.max(0, (currentVotesData[previousVote] || 0) - 1);
                         await setVoteCount(previousVote, oldNewCount);
+                        await logVote(previousVote, "remove");
                     }
-
                     const newCount = (currentVotesData[songId] || 0) + 1;
                     await setVoteCount(songId, newCount);
-
+                    await logVote(songId, "add");
                     userVotedSongId = songId;
                     localStorage.setItem("votedSongId", String(songId));
                 }
-
                 await fetchVotes();
             } catch (error) {
                 console.error("Vote update failed:", error);
@@ -911,6 +881,7 @@
             setupWaveforms();
             setupAudioElements();
             setupAudioListeners();
+            await logPageView();
             await fetchVotes();
         });
     </script>
